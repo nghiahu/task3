@@ -1,10 +1,7 @@
 package ra.edu.business.service.Auth;
-
-import ra.edu.business.model.Admin;
-import ra.edu.business.model.Student;
+import ra.edu.business.model.User;
 
 public interface AuthService {
-    Admin loginAdmin(String username, String password);
-    Student loginStudent(String username, String password);
+    User login(String username, String password);
 
 }

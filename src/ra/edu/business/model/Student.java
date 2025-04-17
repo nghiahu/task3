@@ -3,24 +3,31 @@ package ra.edu.business.model;
 import java.time.LocalDate;
 
 public class Student extends User {
+    private String name;
     private LocalDate dob;
-    private String email;
+    private boolean sex;
     private String phone;
-    private Std_status status;
     private LocalDate create_at;
 
     public Student() {
-        status = Std_status.INACTIVE;
         create_at = LocalDate.now();
     }
 
-    public Student(int id, String username, String password, LocalDate dob, String email, String phone, Std_status status, LocalDate create_at) {
-        super(id, username, password);
+    public Student(int id, String email, String password, Std_status status, E_role role, String name, LocalDate dob, boolean sex, String phone, LocalDate create_at) {
+        super(id, email, password, status, role);
+        this.name = name;
         this.dob = dob;
-        this.email = email;
+        this.sex = sex;
         this.phone = phone;
-        this.status = status;
         this.create_at = create_at;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public LocalDate getDob() {
@@ -31,12 +38,12 @@ public class Student extends User {
         this.dob = dob;
     }
 
-    public String getEmail() {
-        return email;
+    public boolean isSex() {
+        return sex;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setSex(boolean sex) {
+        this.sex = sex;
     }
 
     public String getPhone() {
@@ -45,14 +52,6 @@ public class Student extends User {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public Std_status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Std_status status) {
-        this.status = status;
     }
 
     public LocalDate getCreate_at() {

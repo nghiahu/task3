@@ -6,7 +6,6 @@ import ra.edu.validate.CourseValidator;
 import ra.edu.validate.Validator;
 import ra.edu.validate.ValidatorChoice;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class CourseUi {
@@ -39,10 +38,13 @@ public class CourseUi {
                     updateCourse(scanner);
                     break;
                 case 4:
+                    deleteCourse(scanner);
                     break;
                 case 5:
+                    searchCourseByName(scanner);
                     break;
                 case 6:
+                    SortCourse(scanner);
                     break;
                 case 7:
                     Exit = true;
@@ -53,38 +55,7 @@ public class CourseUi {
         }while(!Exit) ;
     }
     public static void displayListCoursePagination(Scanner scanner) {
-        int totalCourse = courseServiceImp.totalCourse();
-        if(totalCourse == 0) {
-            System.out.println("Chưa có khóa học nào!");
-        }else {
-            int pageSize = 5;
-            int currentPage = 1;
-            int totalPages = totalCourse / pageSize;
-            if(totalCourse % pageSize != 0) {
-                totalPages++;
-            }
-            boolean Exit = false;
-            do {
-                List<Course> listPagination = courseServiceImp.listPagination(pageSize, currentPage);
-                System.out.println("Trang: " + currentPage + "/" + totalPages);
-                listPagination.forEach(course -> {
-                    System.out.println(course.toString());
-                });
-                System.out.println("1. Trang muốn xem");
-                System.out.println("2. Quay lại");
-                int choice = ValidatorChoice.validater(scanner);
-                switch (choice) {
-                    case 1:
-                        currentPage = Validator.validateInt(scanner,1,2,"Nhập trang muốn xem: ");
-                        break;
-                    case 2:
-                        Exit = true;
-                        break;
-                    default:
-                        System.out.println("Lựa chọn không hợp lệ, vui lòng nhập lai!");
-                }
-            }while (!Exit);
-        }
+        courseServiceImp.listCoursesPagination(scanner);
     }
     public static void addNewCourse(Scanner scanner) {
         Course course = new Course();
@@ -96,12 +67,14 @@ public class CourseUi {
         }
     }
     public static void updateCourse(Scanner scanner) {
-        int inputId= Validator.validateInt(scanner,0,1000,"Nhập vào mã khóa học cần cập nhật: ");
+        int inputId= Validator.validateInt(scanner,0,1000,"Nhập vào mã khóa học cần cập nhật: ", "Mã khóa học");
         Course course = courseServiceImp.findCourseById(inputId);
         if(course == null) {
             System.out.println("Không tìm thấy khóa học");
         }else {
             boolean Exit = false;
+            System.out.println("Khóa học muốn cập nhật: ");
+            System.out.println(course.toString());
             do {
                 System.out.println("========================== MENU cập nhật khóa học =====================");
                 System.out.println("1. Cập nhật tên khóa học");
@@ -114,10 +87,10 @@ public class CourseUi {
                         course.setName(CourseValidator.validateName(scanner));
                         break;
                     case 2:
-                        course.setDuration(Validator.validateInt(scanner,0,1000,"Nhập vào thời lượng khóa học: "));
+                        course.setDuration(Validator.validateInt(scanner,0,1000,"Nhập vào thời lượng khóa học: ", "Thời lượng"));
                         break;
                     case 3:
-                        course.setInstructor(Validator.validateString(scanner,0,100,"Giảng viên phụ trách: "));
+                        course.setInstructor(Validator.validateString(scanner,0,100,"Giảng viên phụ trách: ", "Giảng viên"));
                         break;
                     case 4:
                         Exit = true;
@@ -130,5 +103,62 @@ public class CourseUi {
                 System.out.println("Cập nhật thất bại!");
             }
         }
+    }
+    public static void deleteCourse(Scanner scanner) {
+        int inputId= Validator.validateInt(scanner,0,1000,"Nhập vào mã khóa học cần xóa: ", "Mã khóa học");
+        Course course = courseServiceImp.findCourseById(inputId);
+        if(course == null) {
+            System.out.println("Không tìm thấy khóa học muốn xóa");
+        }else {
+            System.out.println(course.toString());
+            boolean Exit = false;
+            while (!Exit){
+                System.out.println("Bạn có chắc chắn muốn xóa khóa học này không(y/n)");
+                System.out.print("Lựa chọn: ");
+                char choice = Character.toLowerCase(scanner.nextLine().charAt(0));
+                switch (choice) {
+                    case 'y':
+                        if (courseServiceImp.delete(course)) {
+                            System.out.println("Xóa thành công");
+                        }else {
+                            System.out.println("Xóa thất bại");
+                        }
+                        Exit = true;
+                        break;
+                    case 'n':
+                        System.out.println("Đã hủy xóa");
+                        Exit = true;
+                        break;
+                    default:
+                        System.out.println("Lựa chọn không hợp lệ vui lòng chọn y/n");
+                }
+            }
+        }
+    }
+    public static void searchCourseByName(Scanner scanner) {
+        String search = Validator.validateString(scanner,0,100,"Nhập tên khóa học muốn tìm: ","Tên khóa học");
+        courseServiceImp.finCourseByNamePagination(scanner,search);
+        boolean Exit = false;
+    }
+    public static void SortCourse(Scanner scanner) {
+        boolean Exit = false;
+        do {
+            System.out.println("Sắp xếp khóa học");
+            System.out.println("1. Theo tên");
+            System.out.println("2. Theo mã khóa học");
+            int choice = ValidatorChoice.validater(scanner);
+            switch (choice) {
+                case 1:
+                    courseServiceImp.sortByName(scanner);
+                    Exit = true;
+                    break;
+                case 2:
+                   courseServiceImp.sortById(scanner);
+                   Exit = true;
+                    break;
+                default:
+                    System.out.println("Lựa chọn không hợp lệ, vui lòng nhập lại!");
+            }
+        } while (!Exit);
     }
 }

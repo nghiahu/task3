@@ -2,6 +2,7 @@ package ra.edu.business.dao.Course;
 
 import ra.edu.business.config.ConnectionDB;
 import ra.edu.business.model.Course;
+import ra.edu.business.model.Std_status;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -27,6 +28,7 @@ public class CourseDAOImp implements CourseDAO {
                 course.setName(rs.getString("name"));
                 course.setDuration(rs.getInt("duration"));
                 course.setInstructor(rs.getString("instructor"));
+                course.setStatus(Std_status.valueOf(rs.getString("status")));
                 course.setCreate_at(rs.getDate("create_at").toLocalDate());
                 return course;
             }
@@ -57,6 +59,7 @@ public class CourseDAOImp implements CourseDAO {
                 course.setName(rs.getString("name"));
                 course.setDuration(rs.getInt("duration"));
                 course.setInstructor(rs.getString("instructor"));
+                course.setStatus(Std_status.valueOf(rs.getString("status")));
                 course.setCreate_at(rs.getDate("create_at").toLocalDate());
                 courses.add(course);
             }
@@ -110,6 +113,7 @@ public class CourseDAOImp implements CourseDAO {
                 course.setName(rs.getString("name"));
                 course.setDuration(rs.getInt("duration"));
                 course.setInstructor(rs.getString("instructor"));
+                course.setStatus(Std_status.valueOf(rs.getString("status")));
                 course.setCreate_at(rs.getDate("create_at").toLocalDate());
                 return course;
             }
@@ -124,6 +128,108 @@ public class CourseDAOImp implements CourseDAO {
     }
 
     @Override
+    public List<Course> findByNamePagianation(String name, int limit, int page) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        List<Course> courses = new ArrayList<>();
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call findCourseByNamePagination(?,?,?)}");
+            callSt.setString(1, name);
+            callSt.setInt(2, limit);
+            callSt.setInt(3, page);
+            ResultSet rs = callSt.executeQuery();
+            while (rs.next()) {
+                Course course = new Course();
+                course.setId(rs.getInt("id"));
+                course.setName(rs.getString("name"));
+                course.setDuration(rs.getInt("duration"));
+                course.setInstructor(rs.getString("instructor"));
+                course.setStatus(Std_status.valueOf(rs.getString("status")));
+                course.setCreate_at(rs.getDate("create_at").toLocalDate());
+                courses.add(course);
+            }
+            return courses;
+
+        }catch (SQLException e) {
+            System.out.println("Có lỗi trong quá trình tìm kiếm: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Có lỗi không xác định trong quá trình tìm kiếm: " + e.getMessage());
+        } finally {
+            ConnectionDB.closeConnection(conn, callSt);
+        }
+        return courses;
+    }
+
+    @Override
+    public List<Course> sortByName(int limit, int page, String sortBy) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        List<Course> courses = new ArrayList<>();
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call sortByName(?,?,?)}");
+            callSt.setString(1, sortBy);
+            callSt.setInt(2, limit);
+            callSt.setInt(3, page);
+            ResultSet rs = callSt.executeQuery();
+            while (rs.next()) {
+                Course course = new Course();
+                course.setId(rs.getInt("id"));
+                course.setName(rs.getString("name"));
+                course.setDuration(rs.getInt("duration"));
+                course.setInstructor(rs.getString("instructor"));
+                course.setStatus(Std_status.valueOf(rs.getString("status")));
+                course.setCreate_at(rs.getDate("create_at").toLocalDate());
+                courses.add(course);
+            }
+            return courses;
+
+        }catch (SQLException e) {
+            System.out.println("Có lỗi trong quá trình sắp xếp: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Có lỗi không xác định trong quá trình xắp xếp: " + e.getMessage());
+        } finally {
+            ConnectionDB.closeConnection(conn, callSt);
+        }
+        return courses;
+    }
+
+    @Override
+    public List<Course> sortById(int limit, int page, String sortBy) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        List<Course> courses = new ArrayList<>();
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call sortByID(?,?,?)}");
+            callSt.setString(1, sortBy);
+            callSt.setInt(2, limit);
+            callSt.setInt(3, page);
+            ResultSet rs = callSt.executeQuery();
+            while (rs.next()) {
+                Course course = new Course();
+                course.setId(rs.getInt("id"));
+                course.setName(rs.getString("name"));
+                course.setDuration(rs.getInt("duration"));
+                course.setInstructor(rs.getString("instructor"));
+                course.setStatus(Std_status.valueOf(rs.getString("status")));
+                course.setCreate_at(rs.getDate("create_at").toLocalDate());
+                courses.add(course);
+            }
+            return courses;
+
+        }catch (SQLException e) {
+            System.out.println("Có lỗi trong quá trình sắp xếp: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Có lỗi không xác định trong quá trình sắp xếp: " + e.getMessage());
+        } finally {
+            ConnectionDB.closeConnection(conn, callSt);
+        }
+        return courses;
+    }
+
+    @Override
     public List<Course> findAll() {
         return List.of();
     }
@@ -134,10 +240,11 @@ public class CourseDAOImp implements CourseDAO {
         CallableStatement callSt = null;
         try {
             conn = ConnectionDB.openConnection();
-            callSt = conn.prepareCall("{call addCourse(?,?,?)}");
+            callSt = conn.prepareCall("{call addCourse(?,?,?,?)}");
             callSt.setString(1, course.getName());
             callSt.setInt(2, course.getDuration());
             callSt.setString(3, course.getInstructor());
+            callSt.setString(4, course.getStatus().name());
             callSt.executeUpdate();
             return true;
         }catch (SQLException e) {
@@ -175,6 +282,21 @@ public class CourseDAOImp implements CourseDAO {
 
     @Override
     public boolean delete(Course course) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call delCourse(?)}");
+            callSt.setInt(1, course.getId());
+            callSt.executeUpdate();
+            return true;
+        }catch (SQLException e) {
+            System.out.println("Có lỗi trong quá trình xoá: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Có lỗi không xác định trong quá trình xóa: " + e.getMessage());
+        } finally {
+            ConnectionDB.closeConnection(conn, callSt);
+        }
         return false;
     }
 }

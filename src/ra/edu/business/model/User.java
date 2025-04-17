@@ -1,17 +1,22 @@
 package ra.edu.business.model;
 
 public class User {
-        private int id;
-        private String username;
-        private String password;
+    private int id;
+    private String email;
+    private String password;
+    private Std_status status;
+    private E_role role;
 
     public User() {
+        status = Std_status.ACTIVE;
     }
 
-    public User(int id, String username, String password) {
+    public User(int id, String email, String password, Std_status status, E_role role) {
         this.id = id;
-        this.username = username;
+        this.email = email;
         this.password = password;
+        this.status = status;
+        this.role = role;
     }
 
     public int getId() {
@@ -22,12 +27,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -37,4 +42,22 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Std_status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Std_status status) {
+        this.status = status;
+    }
+
+    public E_role getRole() {
+        return role;
+    }
+
+    public void setRole(E_role role) {
+        this.role = role;
+    }
 }
+
+

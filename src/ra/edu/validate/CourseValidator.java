@@ -13,7 +13,7 @@ public class CourseValidator {
     public static String validateName(Scanner scanner){
         CourseValidator courseValidator = new CourseValidator();
         while (true){
-            String name = Validator.validateString(scanner,0,100,"Nhập tên khóa học: ");
+            String name = Validator.validateString(scanner,0,100,"Nhập tên khóa học: ","Tên khóa học");
             Course course = courseServiceImp.findByName(name);
             if (course == null){
                 return name;

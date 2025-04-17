@@ -11,17 +11,20 @@ public class Course {
     private String name;
     private int duration;
     private String instructor;
+    private Std_status status;
     private LocalDate create_at;
 
     public Course() {
+        status = Std_status.ACTIVE;
         create_at = LocalDate.now();
     }
 
-    public Course(int id, String name, int duration, String instructor, LocalDate create_at) {
+    public Course(int id, String name, int duration, String instructor, Std_status status, LocalDate create_at) {
         this.id = id;
         this.name = name;
         this.duration = duration;
         this.instructor = instructor;
+        this.status = status;
         this.create_at = create_at;
     }
 
@@ -65,10 +68,18 @@ public class Course {
         this.create_at = create_at;
     }
 
+    public Std_status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Std_status status) {
+        this.status = status;
+    }
+
     public void inputData(Scanner scanner){
         this.name = CourseValidator.validateName(scanner);
-        this.duration = Validator.validateInt(scanner,0,1000,"Nhập vào thời lượng khóa học: ");
-        this.instructor = Validator.validateString(scanner,0,100,"Giảng viên phụ trách: ");
+        this.duration = Validator.validateInt(scanner,0,1000,"Nhập vào thời lượng khóa học: ", "Thời lượng");
+        this.instructor = Validator.validateString(scanner,0,100,"Giảng viên phụ trách: ", "Giảng viên");
     }
 
     @Override
