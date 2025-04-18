@@ -87,10 +87,10 @@ public class CourseUi {
                         course.setName(CourseValidator.validateName(scanner));
                         break;
                     case 2:
-                        course.setDuration(Validator.validateInt(scanner,0,1000,"Nhập vào thời lượng khóa học: ", "Thời lượng"));
+                        course.setDuration(Validator.validateInt(scanner,1,1000,"Nhập vào thời lượng khóa học: ", "Thời lượng"));
                         break;
                     case 3:
-                        course.setInstructor(Validator.validateString(scanner,0,100,"Giảng viên phụ trách: ", "Giảng viên"));
+                        course.setInstructor(Validator.validateString(scanner,1,100,"Giảng viên phụ trách: ", "Giảng viên"));
                         break;
                     case 4:
                         Exit = true;

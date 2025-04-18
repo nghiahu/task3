@@ -74,11 +74,11 @@ public class Validator {
         while (true) {
             System.out.print(message);
             String input = scanner.nextLine().trim();
-            String regexDate = "\\d{4}-\\d{2}-\\d{2}";
+            String regexDate = "\\d{2}-\\d{2}-\\d{4}";
             if(input.isEmpty()){
                 System.out.println(name + " không được để trống");
             }else if(!input.matches(regexDate)){
-                System.out.println("Định dạng dữ liệu không hợp lệ");
+                System.out.println("Định dạng ngày không không hợp lệ");
             }else {
                 return LocalDate.parse(input);
             }

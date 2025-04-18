@@ -230,6 +230,31 @@ public class CourseDAOImp implements CourseDAO {
     }
 
     @Override
+    public int countByName(String name) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        int count = 0;
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call countFind(?)}");
+            callSt.setString(1, name);
+            callSt.execute();
+            ResultSet rs = callSt.getResultSet();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+            return count;
+        }catch (SQLException e) {
+            System.out.println("Có lỗi trong quá trình tìm kiếm: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Có lỗi không xác định trong quá trình tìm kiếm: " + e.getMessage());
+        } finally {
+            ConnectionDB.closeConnection(conn, callSt);
+        }
+        return count;
+    }
+
+    @Override
     public List<Course> findAll() {
         return List.of();
     }

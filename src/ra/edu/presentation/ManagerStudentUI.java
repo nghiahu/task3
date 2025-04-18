@@ -1,11 +1,17 @@
 package ra.edu.presentation;
 
+import ra.edu.business.service.ManagerStudent.ManagerStudentServiceImp;
 import ra.edu.validate.ValidatorChoice;
 
 import java.util.Scanner;
 
 public class ManagerStudentUI {
+    private static ManagerStudentServiceImp managerStudentServiceImp;
+    public ManagerStudentUI() {
+        managerStudentServiceImp = new ManagerStudentServiceImp();
+    }
     public static void main(String[] args) {
+        ManagerStudentUI managerStudentUI = new ManagerStudentUI();
         Scanner scanner = new Scanner(System.in);
         boolean Exit = false;
         do {
@@ -20,6 +26,7 @@ public class ManagerStudentUI {
             int choice = ValidatorChoice.validater(scanner);
             switch (choice) {
                 case 1:
+                    displayListStdPagination(scanner);
                     break;
                 case 2:
                     break;
@@ -38,5 +45,8 @@ public class ManagerStudentUI {
                     System.out.println("Lựa chon không hợp lệ vui lòng chọn từ 1 - 7!");
             }
         }while (!Exit);
+    }
+    public static void displayListStdPagination(Scanner scanner) {
+        managerStudentServiceImp.findAllStudentAllPagination(scanner);
     }
 }

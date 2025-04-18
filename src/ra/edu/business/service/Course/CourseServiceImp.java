@@ -40,12 +40,15 @@ public class CourseServiceImp implements CourseService {
                 listPagination = (search == null) ?
                         courseDAOImp.listPagination(pagination.getPagesize(), pagination.getCurrentpage()) :
                         courseDAOImp.findByNamePagianation(search, pagination.getPagesize(), pagination.getCurrentpage());
+                if(search != null){
+                    System.out.println(totalFind(search));
+                    pagination.setTotalpages(totalFind(search));
+                }
             }else {
                 listPagination = (sortBy.equals("NAME")) ?
                         courseDAOImp.sortByName(pagination.getPagesize(), pagination.getCurrentpage(), sortOrder) :
                         courseDAOImp.sortById(pagination.getPagesize(), pagination.getCurrentpage(), sortOrder);
-            }
-
+                }
             if (!listPagination.isEmpty()) {
                 System.out.println("---------------------------------------------------------------------------------------------");
                 System.out.printf("%-10s | %-25s | %-15s | %-25s | %-15s\n",
@@ -112,7 +115,9 @@ public class CourseServiceImp implements CourseService {
     public int totalCourse() {
         return courseDAOImp.totalCount();
     }
-
+    public int totalFind(String name){
+        return courseDAOImp.countByName(name);
+    }
     @Override
     public Course findCourseById(int id) {
         return courseDAOImp.findById(id);

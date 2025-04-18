@@ -10,6 +10,8 @@ public class Student extends User {
     private LocalDate create_at;
 
     public Student() {
+        setRole(E_role.STUDENT);
+        setStatus(Std_status.ACTIVE);
         create_at = LocalDate.now();
     }
 
@@ -60,5 +62,17 @@ public class Student extends User {
 
     public void setCreate_at(LocalDate create_at) {
         this.create_at = create_at;
+    }
+
+    public void displayInfo() {
+        System.out.printf("| %-5d | %-20s | %-20s | %-10s | %-10s | %-22s | %-10s |\n",
+                getId(),
+                getEmail(),
+                name,
+                dob,
+                (sex ? "Nam" : "Nữ"),
+                phone,
+                create_at
+        );
     }
 }

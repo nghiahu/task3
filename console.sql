@@ -149,6 +149,13 @@ end //
 DELIMITER ;
 
 DELIMITER //
+create procedure countFind(name_in varchar(100))
+begin
+    select count(*) from Courses where status != 'BLOCKED' and name like concat('%',name_in,'%');
+end //
+DELIMITER ;
+
+DELIMITER //
 create procedure sortByName(
     order_in char(5),
     limit_in int,
@@ -194,6 +201,31 @@ begin
 end //
 DELIMITER ;
 
+DELIMITER //
+create procedure findStdByEmail(email_in varchar(100))
+begin
+    select * from Students s
+    join Account A on A.id = s.id_account
+    where A.email = email_in;
+end //
+DELIMITER ;
+
+DELIMITER //
+create procedure findAllStdPagination(
+    limit_in int,
+    page int
+)
+begin
+    declare offset_in int;
+    set offset_in = (page - 1) * limit_in;
+    select * from Students s
+                      join Account A on A.id = s.id_account
+    where status != 'BLOCKED'
+    limit limit_in
+    offset offset_in;
+        end //
+DELIMITER ;
+
 insert into Courses (name, duration, instructor, status)
 values
     ('Web Development Bootcamp', 90, 'Alice Johnson', 'ACTIVE'),
@@ -209,3 +241,29 @@ values
 insert into Account(email, password, role, status)
 values ('admin@gmail.com','admin123','ADMIN','ACTIVE'),
        ('nghia@gmail.com','nghia123','STUDENT','ACTIVE');
+
+-- Thêm 10 tài khoản
+insert into Account (email, password, role, status) values
+    ('student1@example.com', 'hashed_password_1', 'STUDENT', 'ACTIVE'),
+    ('student2@example.com', 'hashed_password_2', 'STUDENT', 'ACTIVE'),
+    ('student3@example.com', 'hashed_password_3', 'STUDENT', 'ACTIVE'),
+    ('student4@example.com', 'hashed_password_4', 'STUDENT', 'INACTIVE'),
+    ('student5@example.com', 'hashed_password_5', 'STUDENT', 'ACTIVE'),
+    ('student6@example.com', 'hashed_password_6', 'STUDENT', 'BLOCKED'),
+    ('student7@example.com', 'hashed_password_7', 'STUDENT', 'ACTIVE'),
+    ('student8@example.com', 'hashed_password_8', 'STUDENT', 'ACTIVE'),
+    ('student9@example.com', 'hashed_password_9', 'STUDENT', 'INACTIVE'),
+    ('student10@example.com', 'hashed_password_10', 'STUDENT', 'ACTIVE');
+
+-- Thêm 10 sinh viên tương ứng
+insert into Students (id_account, name, dob, sex, phone) values
+    (1, 'Nguyen Van A', '2002-05-01', 1, '0912345678'),
+    (2, 'Tran Thi B', '2001-07-15', 0, '0987654321'),
+    (3, 'Le Van C', '2003-03-20', 1, '0909123456'),
+    (4, 'Pham Thi D', '2002-11-30', 0, null),
+    (5, 'Hoang Van E', '2000-08-25', 1, '0938123456'),
+    (6, 'Dang Thi F', '2001-01-10', 0, '0979123456'),
+    (7, 'Bui Van G', '2003-06-14', 1, null),
+    (8, 'Do Thi H', '2002-04-22', 0, '0967123456'),
+    (9, 'Nguyen Van I', '2000-12-12', 1, '0956123456'),
+    (10, 'Tran Thi K', '2001-09-09', 0, '0945123456');
