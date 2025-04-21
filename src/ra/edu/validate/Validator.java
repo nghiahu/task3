@@ -1,6 +1,7 @@
 package ra.edu.validate;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Validator {
@@ -80,7 +81,9 @@ public class Validator {
             }else if(!input.matches(regexDate)){
                 System.out.println("Định dạng ngày không không hợp lệ");
             }else {
-                return LocalDate.parse(input);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                LocalDate date = LocalDate.parse(input, formatter);
+                return date;
             }
         }
     }

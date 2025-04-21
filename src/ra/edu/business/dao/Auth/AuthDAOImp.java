@@ -30,6 +30,7 @@ public class AuthDAOImp implements authDAO {
                     user = new User();
                     user.setId(rs.getInt("id"));
                     user.setEmail(rs.getString("email"));
+                    user.setPassword(rs.getString("password"));
                     user.setRole(E_role.valueOf(rs.getString("role")));
                     return user;
                 }

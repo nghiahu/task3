@@ -41,7 +41,6 @@ public class CourseServiceImp implements CourseService {
                         courseDAOImp.listPagination(pagination.getPagesize(), pagination.getCurrentpage()) :
                         courseDAOImp.findByNamePagianation(search, pagination.getPagesize(), pagination.getCurrentpage());
                 if(search != null){
-                    System.out.println(totalFind(search));
                     pagination.setTotalpages(totalFind(search));
                 }
             }else {

@@ -1,6 +1,10 @@
 package ra.edu.business.model;
 
+import ra.edu.validate.StudentValidator;
+import ra.edu.validate.Validator;
+
 import java.time.LocalDate;
+import java.util.Scanner;
 
 public class Student extends User {
     private String name;
@@ -65,7 +69,7 @@ public class Student extends User {
     }
 
     public void displayInfo() {
-        System.out.printf("| %-5d | %-20s | %-20s | %-10s | %-10s | %-22s | %-10s |\n",
+        System.out.printf("| %-5d | %-25s | %-20s | %-10s | %-10s | %-22s | %-10s |\n",
                 getId(),
                 getEmail(),
                 name,
@@ -74,5 +78,17 @@ public class Student extends User {
                 phone,
                 create_at
         );
+    }
+    public void inputDate(Scanner scanner) {
+        setEmail(StudentValidator.validateEmail(scanner));
+        setPassword(StudentValidator.validatePassword(scanner));
+        this.name = Validator.validateString(scanner,1,100,"Nhập vào tên học viên: ","Tên học viên");
+        this.dob = StudentValidator.validateBirthday(scanner);
+        this.sex = StudentValidator.validateGender(scanner);
+        this.phone = StudentValidator.validatePhone(scanner);
+    }
+    @Override
+    public String toString() {
+        return "Mã học viên: " + getId() + " - Email:" + getEmail() + " - Tên: " + this.name + " - Ngày sinh: " + this.dob + " - Giới tính: " + (this.sex?"Nam":"Nữ") + " - Ngày tạo: " + this.getCreate_at();
     }
 }

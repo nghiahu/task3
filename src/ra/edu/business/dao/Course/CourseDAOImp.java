@@ -4,10 +4,7 @@ import ra.edu.business.config.ConnectionDB;
 import ra.edu.business.model.Course;
 import ra.edu.business.model.Std_status;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -311,10 +308,17 @@ public class CourseDAOImp implements CourseDAO {
         CallableStatement callSt = null;
         try {
             conn = ConnectionDB.openConnection();
-            callSt = conn.prepareCall("{call delCourse(?)}");
+            callSt = conn.prepareCall("{call delCourse(?,?)}");
             callSt.setInt(1, course.getId());
+            callSt.registerOutParameter(2, Types.INTEGER);
             callSt.executeUpdate();
-            return true;
+            int return_code = callSt.getInt(2);
+            if (return_code == 1) {
+                return true;
+            }else {
+                System.out.println("Khóa học đã có học viên, không thể xóa");
+                return false;
+            }
         }catch (SQLException e) {
             System.out.println("Có lỗi trong quá trình xoá: " + e.getMessage());
         } catch (Exception e) {
