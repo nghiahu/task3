@@ -59,7 +59,7 @@ public class EnrollmentDAOImp implements EnrollmentDAO {
             if (return_code == 1) {
                 return true;
             }else {
-                System.out.println("Khóa học đã được xác nhận không thể hủy");
+                System.out.println("\u001B[31mKhóa học đã được xác nhận không thể hủy\u001B[0m");
                 return false;
             }
         }catch (SQLException e){
@@ -183,7 +183,7 @@ public class EnrollmentDAOImp implements EnrollmentDAO {
             if (return_code == 1) {
                 return true;
             }else {
-                System.out.println("Khóa học đã được đăng ký, không thể đăng ký lại!");
+                System.out.println("\u001B[31mKhóa học đã được đăng ký, không thể đăng ký lại!\u001B[0m");
                 return false;
             }
         }catch (SQLException e){

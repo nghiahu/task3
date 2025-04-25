@@ -69,7 +69,7 @@ public class Student extends User {
     }
 
     public void displayInfo() {
-        System.out.printf("| %-5d | %-25s | %-20s | %-10s | %-10s | %-22s | %-10s |\n",
+        System.out.printf("\u001B[36m│ \u001B[32m%-5d\u001B[36m │ %-25s│ %-20s│ %-10s│ %-10s│ %-26s│ %-10s│\n\u001B[0m",
                 getId(),
                 getEmail(),
                 name,
@@ -80,12 +80,12 @@ public class Student extends User {
         );
     }
     public void inputDate(Scanner scanner) {
-        setEmail(StudentValidator.validateEmail(scanner));
+        setEmail(StudentValidator.validateEmail(scanner, false));
         setPassword(StudentValidator.validatePassword(scanner));
         this.name = Validator.validateString(scanner,1,100,"Nhập vào tên học viên: ","Tên học viên");
         this.dob = StudentValidator.validateBirthday(scanner);
         this.sex = StudentValidator.validateGender(scanner);
-        this.phone = StudentValidator.validatePhone(scanner);
+        this.phone = StudentValidator.validatePhone(scanner, false);
     }
     @Override
     public String toString() {

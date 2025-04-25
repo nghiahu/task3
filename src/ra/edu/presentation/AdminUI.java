@@ -43,7 +43,7 @@ public class AdminUI {
                     System.out.println("\n");
                     break;
                 default:
-                    System.out.println("Lựa chọn không hợp lệ vui lòng chọn từ 1 - 5!");
+                    System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng chọn từ 1 - 5!\u001B[0m");
             }
         }while (!Exit);
     }

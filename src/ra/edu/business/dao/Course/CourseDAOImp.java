@@ -423,7 +423,7 @@ public class CourseDAOImp implements CourseDAO {
             if (return_code == 1) {
                 return true;
             }else {
-                System.out.println("Khóa học đã có học viên, không thể xóa");
+                System.out.println("\u001B[31mKhóa học đã có học viên, không thể xóa\u001B[0m");
                 return false;
             }
         }catch (SQLException e) {

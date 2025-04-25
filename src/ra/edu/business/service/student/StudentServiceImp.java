@@ -41,10 +41,10 @@ public class StudentServiceImp implements StudentService {
             String email = Validator.validateEmail(scanner);
             String password = Validator.validateString(scanner,1,255,"Nhập vào mật khẩu cũ: ","Mật khẩu cũ").trim();
             if (!password.equals(ManiApplication.currentUser.getPassword())){
-                System.out.println("Mật khẩu cũ không chính xác, vui lòng thử lại!");
+                System.out.println("\u001B[31mMật khẩu cũ không chính xác, vui lòng thử lại!\u001B[0m");
             } else {
                 if(!email.equals(ManiApplication.currentUser.getEmail())) {
-                    System.out.println("Email không chính xác vui lòng thử lại");
+                    System.out.println("\u001B[31mEmail không chính xác vui lòng thử lại\u001B[0m");
                 } else {
                     Exit = true;
                 }

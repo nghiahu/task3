@@ -357,7 +357,7 @@ public class ManagerStudentDAOImp implements ManagerStudentDAO {
             callSt.executeUpdate();
             int return_code = callSt.getInt(2);
             if(return_code==0){
-                System.out.println("Học viên đã có khóa khóa học không thể xóa!");
+                System.out.println("\u001B[31mHọc viên đã có khóa khóa học không thể xóa!\u001B[0m");
                 return false;
             }else {
                 return true;

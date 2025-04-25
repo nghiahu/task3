@@ -53,7 +53,7 @@ public class ManagerStudentUI {
                     Exit = true;
                     break;
                 default:
-                    System.out.println("Lựa chon không hợp lệ vui lòng chọn từ 1 - 7!");
+                    System.out.println("\u001B[31mLựa chon không hợp lệ vui lòng chọn từ 1 - 7!\u001B[0m");
             }
         }while (!Exit);
     }
@@ -64,16 +64,16 @@ public class ManagerStudentUI {
         Student student = new Student();
         student.inputDate(scanner);
         if(managerStudentServiceImp.save(student)) {
-            System.out.println("Đã thêm mới học viên thành công");
+            System.out.println("\u001B[32mĐã thêm mới học viên thành công\u001B[0m");
         }else {
-            System.out.println("Thêm học viên thất bại");
+            System.out.println("\u001B[31mThêm học viên thất bại\u001B[0m");
         }
     }
     private static void updateStudent(Scanner scanner) {
         int id = Validator.validateInt(scanner,1,1000,"Nhập vào mã học viên: ","Mã học viên");
         Student student =managerStudentServiceImp.findStudentById(id);
         if(student == null) {
-            System.out.println("Học viên không tồn tại!");
+            System.out.println("\u001B[31mHọc viên không tồn tại!\u001B[0m");
         }else {
             boolean Exit = false;
             System.out.println(student.toString());
@@ -92,7 +92,7 @@ public class ManagerStudentUI {
                 int choice = ValidatorChoice.validater(scanner);
                 switch (choice) {
                     case 1:
-                        student.setEmail(StudentValidator.validateEmail(scanner));
+                        student.setEmail(StudentValidator.validateEmail(scanner, true));
                         break;
                     case 2:
                         student.setPassword(StudentValidator.validatePassword(scanner));
@@ -107,19 +107,19 @@ public class ManagerStudentUI {
                         student.setSex(StudentValidator.validateGender(scanner));
                         break;
                     case 6:
-                        student.setPhone(StudentValidator.validatePhone(scanner));
+                        student.setPhone(StudentValidator.validatePhone(scanner, true));
                         break;
                     case 7:
                         Exit = true;
                         break;
                     default:
-                        System.out.println("Lựa chọn không hợp lệ vui lòng chọn lại!");
+                        System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng chọn lại!\u001B[0m");
                 }
             }while (!Exit);
             if(managerStudentServiceImp.update(student)) {
-                System.out.println("Cập nhật thành công!");
+                System.out.println("\u001B[32mCập nhật thành công!\u001B[0m");
             }else {
-                System.out.println("Cập nhật thất bại");
+                System.out.println("\u001B[31mCập nhật thất bại\u001B[0m");
             }
         }
     }
@@ -130,29 +130,29 @@ public class ManagerStudentUI {
         int id = Validator.validateInt(scanner,1,1000,"Nhập vào mã học viên: ","Mã học viên");
         Student student =managerStudentServiceImp.findStudentById(id);
         if(student == null) {
-            System.out.println("Học viên không tồn tại!");
+            System.out.println("\u001B[31mHọc viên không tồn tại!\u001B[0m");
         }else {
             System.out.println(student.toString());
             boolean Exit = false;
             while (!Exit){
                 System.out.println("Bạn có chắc chắn muốn xóa học viên này không(y/n)");
-                System.out.print("Lựa chọn: ");
+                System.out.print("\u001B[35m➤Lựa chọn(y/n): \u001B[0m");
                 char choice = Character.toLowerCase(scanner.nextLine().charAt(0));
                 switch (choice) {
                     case 'y':
                         if (managerStudentServiceImp.delete(student)) {
-                            System.out.println("Xóa thành công");
+                            System.out.println("\u001B[32mXóa thành công\u001B[0m");
                         }else {
-                            System.out.println("Xóa thất bại");
+                            System.out.println("\u001B[31mXóa thất bại\u001B[0m");
                         }
                         Exit = true;
                         break;
                     case 'n':
-                        System.out.println("Đã hủy xóa");
+                        System.out.println("\u001B[32mĐã hủy xóa\u001B[0m");
                         Exit = true;
                         break;
                     default:
-                        System.out.println("Lựa chọn không hợp lệ vui lòng chọn y/n");
+                        System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng chọn y/n\u001B[0m");
                 }
             }
         }

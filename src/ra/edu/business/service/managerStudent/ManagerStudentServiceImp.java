@@ -32,7 +32,7 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
         do {
             List<Student> studentList = managerStudentDAOImp.findAllStudentPagination(pagination.getPagesize(), pagination.getCurrentpage());
             if(studentList.isEmpty()) {
-                System.out.println("Không có sinh viên!");
+                System.out.println("\u001B[31mKhông có sinh viên!\u001B[0m");
             }else {
                 navigateToStudent(scanner, studentList);
                 Exit = pagination.navigate(scanner);
@@ -62,7 +62,6 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
         pagination.setPagesize(10);
         int  totalStudent = 0;
         List<Student> studentList = new ArrayList<Student>();
-        System.out.println("=================== Menu tìm kiếm ====================");
         System.out.println("1. Tìm kiếm theo email");
         System.out.println("2. Tìm kiếm theo tên");
         System.out.println("3. Tìm kiếm theo mã học viên");
@@ -72,7 +71,7 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
                 String email = Validator.validateString(scanner,1,100,"Nhập vào email: ", "Email");
                 studentList = managerStudentDAOImp.findStdByPagation(email,null,"EMAIL",pagination.getCurrentpage(),pagination.getPagesize());
                 if(studentList.isEmpty()) {
-                    System.out.println("Không tìm thấy học viên nào!");
+                    System.out.println("\u001B[31mKhông tìm thấy học viên nào!\u001B[0m");
                 }else {
                     totalStudent = countTotalFind(email,null,"EMAIL");
                     pagination.setTotalpages(totalStudent);
@@ -88,33 +87,14 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
                 String name = Validator.validateString(scanner,1,100,"Nhập vào tên học viên: ", "Tên học viên");
                 studentList = managerStudentDAOImp.findStdByPagation(null,name,"NAME",pagination.getCurrentpage(),pagination.getPagesize());
                 if(studentList.isEmpty()) {
-                    System.out.println("Không tìm thấy học viên nào!");
+                    System.out.println("\u001B[31mKhông tìm thấy học viên nào!\u001B[0m");
                 }else {
                     totalStudent = countTotalFind(null,name,"NAME");
                     pagination.setTotalpages(totalStudent);
                     do {
                         studentList = managerStudentDAOImp.findStdByPagation(null,name,"NAME",pagination.getCurrentpage(),pagination.getPagesize());
                         navigateToStudent(scanner, studentList);
-                        char choice = ValidatorChoice.validateChoiceChar(scanner);
-                        switch (choice) {
-                            case '1':
-                                int page = Validator.validateInt(scanner, 1, pagination.getTotalpages(), "Nhập trang: ", "Trang");
-                                pagination.setCurrentpage(page);
-                                break;
-                            case '2':
-                                Exit = true;
-                                break;
-                            case 'P':
-                                if (pagination.getCurrentpage() > 1)
-                                    pagination.setCurrentpage(pagination.getCurrentpage() - 1);
-                                break;
-                            case 'N':
-                                if (pagination.getCurrentpage() < pagination.getTotalpages())
-                                    pagination.setCurrentpage(pagination.getCurrentpage() + 1);
-                                break;
-                            default:
-                                System.out.println("Lựa chọn không hợp lệ vui lòng nhập lại!");
-                        }
+                        Exit = pagination.navigate(scanner);
                     }while (!Exit);
                 }
                 break;
@@ -122,13 +102,13 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
                 int id = Validator.validateInt(scanner,1,1000,"Nhập vào mã học viên: ","Mã học viên");
                 Student student = managerStudentDAOImp.findStudentById(id);
                 if(student == null) {
-                    System.out.println("Không tìm thấy học viên");
+                    System.out.println("\u001B[31mKhông tìm thấy học viên!\u001B[0m");
                 }else {
                     System.out.println(student.toString());
                 }
                 break;
             default:
-                System.out.println("Lựa chọn không hợp lệ, vui lòng chọn lại!");
+                System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng nhập lại!\u001B[0m");
         }
     }
 
@@ -143,8 +123,8 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
         List<Student> studentList = new ArrayList<>();
         pagination.setCurrentpage(1);
         pagination.setPagesize(10);
+        pagination.setTotalpages(countTotalStudent());
         String order = "";
-        System.out.println("============== Menu sắp xếp =====================");
         System.out.println("1. Sắp xếp theo tên");
         System.out.println("2. Sắp xếp theo mã học viên");
         System.out.println("3. Sắp xếp theo email");
@@ -153,10 +133,8 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
             case 1:
                 order = orderByStudent(scanner);
                 studentList = managerStudentDAOImp.sortStudent("NAME",order,pagination.getCurrentpage(),pagination.getPagesize());
-                pagination.setTotalpages(countTotalSort("NAME",order));
-                System.out.println(pagination.getTotalpages());
                 if(studentList.isEmpty()) {
-                    System.out.println("Không có học viên nào");
+                    System.out.println("\u001B[31mKhông có học viên nào!\u001B[0m");
                 }else {
                     while(!Exit) {
                         studentList = managerStudentDAOImp.sortStudent("NAME",order,pagination.getCurrentpage(),pagination.getPagesize());
@@ -168,9 +146,8 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
             case 2:
                 order = orderByStudent(scanner);
                 studentList = managerStudentDAOImp.sortStudent("ID",order,pagination.getCurrentpage(),pagination.getPagesize());
-                pagination.setTotalpages(countTotalSort("ID",order));
                 if(studentList.isEmpty()) {
-                    System.out.println("Không có học viên nào");
+                    System.out.println("\u001B[31mKhông có học viên nào!\u001B[0m");
                 }else {
                     while(!Exit) {
                         studentList = managerStudentDAOImp.sortStudent("ID",order,pagination.getCurrentpage(),pagination.getPagesize());
@@ -182,9 +159,8 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
             case 3:
                 order = orderByStudent(scanner);
                 studentList = managerStudentDAOImp.sortStudent("EMAIL",order,pagination.getCurrentpage(),pagination.getPagesize());
-                pagination.setTotalpages(countTotalSort("EMAIL",order));
                 if(studentList.isEmpty()) {
-                    System.out.println("Không có học viên nào");
+                    System.out.println("\u001B[31mKhông có học viên nào!\u001B[0m");
                 }else {
                     while(!Exit) {
                         studentList = managerStudentDAOImp.sortStudent("EMAIL",order,pagination.getCurrentpage(),pagination.getPagesize());
@@ -194,7 +170,7 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
                 }
                 break;
             default:
-                System.out.println("Lựa chọn không hợp lệ, vui lòng chọn lại!");
+                System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng nhập lại!\u001B[0m");
         }
     }
     public String orderByStudent(Scanner scanner) {
@@ -208,7 +184,7 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
                 case 2:
                     return "desc";
                 default:
-                    System.out.println("Lựa chọn không hợp lệ, vui lòng chọn lại!");
+                    System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng nhập lại!\u001B[0m");
             }
         }
     }
@@ -238,12 +214,13 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
     }
 
     public void navigateToStudent(Scanner scanner, List<Student> students) {
-        System.out.println("----------------------------------------------------------------------------------------------------------------------------");
-        System.out.printf("| %-3s | %-25s | %-20s | %-10s | %-10s | %-22s | %-10s |\n",
-                "Mã HS", "Email","Tên học sinh", "Ngày sinh", "Giới tính", "Số điện thoại","Ngày tạo");
-        System.out.println("----------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("\u001B[36m┌───────┬──────────────────────────┬─────────────────────┬───────────┬───────────┬───────────────────────────┬───────────┐\u001B[0m");
+        System.out.printf("\u001B[36m│ \u001B[33m%-5s\u001B[36m │ %-25s│ %-20s│ %-10s│ %-10s│ %-26s│ %-10s│\n\u001B[0m",
+                "Mã HS", "Email", "Tên học sinh", "Ngày sinh", "Giới tính", "Số điện thoại", "Ngày tạo");
+        System.out.println("\u001B[36m├───────┼──────────────────────────┼─────────────────────┼───────────┼───────────┼───────────────────────────┼───────────┤\u001B[0m");
         for (Student student : students) {
             student.displayInfo();
         }
+        System.out.println("\u001B[36m└───────┴──────────────────────────┴─────────────────────┴───────────┴───────────┴───────────────────────────┴───────────┘\u001B[0m");
     }
 }

@@ -53,7 +53,7 @@ public class EnrollmentServiceImp implements EnrollmentService{
         do {
             List<RegisteredCurse> listEnrollmentRegistered = enrollmentDAOImp.listEnrollmentRegistered(ManiApplication.currentUser.getId(), pagination.getPagesize(),pagination.getCurrentpage());
             if(listEnrollmentRegistered.isEmpty()) {
-                System.out.println("Chưa đăng ký khóa học nào");
+                System.out.println("\u001B[31mChưa đăng ký khóa học nào!\u001B[0m");
             }else {
                 navigateToStudent(scanner, listEnrollmentRegistered);
                 char choice = ValidatorChoice.validateChoiceChar(scanner);
@@ -74,7 +74,7 @@ public class EnrollmentServiceImp implements EnrollmentService{
                             pagination.setCurrentpage(pagination.getCurrentpage() + 1);
                         break;
                     default:
-                        System.out.println("Lựa chọn không hợp lệ vui lòng nhập lại!");
+                        System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng nhập lại!\u001B[0m");
                 }
             }
         }while (!Exit);
@@ -95,7 +95,6 @@ public class EnrollmentServiceImp implements EnrollmentService{
         int totaledEnrollment = totaledEnrollment(ManiApplication.currentUser.getId());
         pagination.setTotalpages(totaledEnrollment);
         String order = "";
-        System.out.println("============== Menu sắp xếp =====================");
         System.out.println("1. Sắp xếp theo tên");
         System.out.println("2. Sắp xếp theo ngày đăng ký");
         int choice1 = ValidatorChoice.validater(scanner);
@@ -104,7 +103,7 @@ public class EnrollmentServiceImp implements EnrollmentService{
                 order = orderByEnrollment(scanner);
                 listEnrollmentRegistered = enrollmentDAOImp.sortedEnrollment(ManiApplication.currentUser.getId(), "Name",order,pagination.getPagesize(),pagination.getCurrentpage());
                 if(listEnrollmentRegistered.isEmpty()) {
-                    System.out.println("Chưa đăng ký khóa học nào");
+                    System.out.println("\u001B[31mChưa đăng ký khóa học nào!\u001B[0m");
                 }else {
                     while(!Next) {
                         listEnrollmentRegistered = enrollmentDAOImp.sortedEnrollment(ManiApplication.currentUser.getId(), "Name",order,pagination.getPagesize(),pagination.getCurrentpage());
@@ -126,7 +125,7 @@ public class EnrollmentServiceImp implements EnrollmentService{
                                     pagination.setCurrentpage(pagination.getCurrentpage() + 1);
                                 break;
                             default:
-                                System.out.println("Lựa chọn không hợp lệ vui lòng nhập lại!");
+                                System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng nhập lại!\u001B[0m");
                         }
                     }
                 }
@@ -135,7 +134,7 @@ public class EnrollmentServiceImp implements EnrollmentService{
                 order = orderByEnrollment(scanner);
                 listEnrollmentRegistered = enrollmentDAOImp.sortedEnrollment(ManiApplication.currentUser.getId(), "CREATE_AT",order,pagination.getPagesize(),pagination.getCurrentpage());
                 if(listEnrollmentRegistered.isEmpty()) {
-                    System.out.println("Chưa đăng ký khóa học nào");
+                    System.out.println("\u001B[31mChưa đăng ký khóa học nào\u001B[0m");
                 }else {
                     while(!Next) {
                         listEnrollmentRegistered = enrollmentDAOImp.sortedEnrollment(ManiApplication.currentUser.getId(), "CREATE_AT",order,pagination.getPagesize(),pagination.getCurrentpage());
@@ -157,13 +156,13 @@ public class EnrollmentServiceImp implements EnrollmentService{
                                     pagination.setCurrentpage(pagination.getCurrentpage() + 1);
                                 break;
                             default:
-                                System.out.println("Lựa chọn không hợp lệ vui lòng nhập lại!");
+                                System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng nhập lại!\u001B[0m");
                         }
                     }
                 }
                 break;
             default:
-                System.out.println("Lựa chọn không hợp lệ, vui lòng chọn lại!");
+                System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng nhập lại!\u001B[0m");
         }
     }
 
@@ -182,7 +181,7 @@ public class EnrollmentServiceImp implements EnrollmentService{
         do {
             List<StudentEnroll> listStudentEnroll = enrollmentDAOImp.listStudentEnroll(pagination.getPagesize(),pagination.getCurrentpage());
             if(listStudentEnroll.isEmpty()) {
-                System.out.println("Chưa có khóa học nào được đăng ký!");
+                System.out.println("\u001B[31mChưa có khóa học nào được đăng ký!\u001B[0m");
             }else {
                 navigateToEnrollment(scanner, listStudentEnroll);
                 char choice = ValidatorChoice.validateChoiceChar(scanner);
@@ -203,7 +202,7 @@ public class EnrollmentServiceImp implements EnrollmentService{
                             pagination.setCurrentpage(pagination.getCurrentpage() + 1);
                         break;
                     default:
-                        System.out.println("Lựa chọn không hợp lệ vui lòng nhập lại!");
+                        System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng nhập lại!\u001B[0m");
                 }
             }
         }while (!Exit);
@@ -225,19 +224,20 @@ public class EnrollmentServiceImp implements EnrollmentService{
                 case 2:
                     return "desc";
                 default:
-                    System.out.println("Lựa chọn không hợp lệ, vui lòng chọn lại!");
+                    System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng nhập lại!\u001B[0m");
             }
         }
     }
 
     public void navigateToStudent(Scanner scanner, List<RegisteredCurse> registeredCurses) {
-        System.out.println("----------------------------------------------------------------------------------------------------------------------------");
-        System.out.printf("|%-10s|%-12s|%-30s|%-12s|%-22s|%-12s|%-20s|\n",
-                "Mã đăng ký", "Mã khóa học", "Tên khóa học", "Thời lượng", "Giảng viên","Trạng thái","Ngày đăng ký");
-        System.out.println("----------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("\u001B[36m┌────────────┬──────────────┬────────────────────────────────┬────────────┬──────────────────────┬────────────┬──────────────────────┐\u001B[0m");
+        System.out.printf("\u001B[36m│\u001B[33m%-12s\u001B[36m│%-14s│%-32s│%-12s│%-22s│%-12s│%-22s│\n\u001B[0m",
+                "Mã đăng ký", "Mã khóa học", "Tên khóa học", "Thời lượng", "Giảng viên", "Trạng thái", "Ngày đăng ký");
+        System.out.println("\u001B[36m├────────────┼──────────────┼────────────────────────────────┼────────────┼──────────────────────┼────────────┼──────────────────────┤\u001B[0m");
         for (RegisteredCurse registeredCurse : registeredCurses) {
             registeredCurse.displayData();
         }
+        System.out.println("\u001B[36m└────────────┴──────────────┴────────────────────────────────┴────────────┴──────────────────────┴────────────┴──────────────────────┘\u001B[0m");
         System.out.print("Trang: ");
         if (pagination.getCurrentpage() > 1) {
             System.out.print("Previous      ");
@@ -257,13 +257,14 @@ public class EnrollmentServiceImp implements EnrollmentService{
         System.out.println("2. Thoát");
     }
     public void navigateToEnrollment(Scanner scanner, List<StudentEnroll> listStudentEnroll) {
-        System.out.println("---------------------------------------------------------------------------------------------");
-        System.out.printf("|%-10s |%-20s |%-25s |%-15s |%-20s%n|",
+        System.out.println("\u001B[36m┌───────────┬────────────────────┬─────────────────────────┬───────────────┬────────────────────┐\u001B[0m");
+        System.out.printf("\u001B[36m│\u001B[33m%-10s\u001B[36m │%-20s│%-25s│%-15s│%-20s│\n\u001B[0m",
                 "Mã ĐK", "Học viên", "Khóa học", "Trạng thái", "Thời gian tạo");
-        System.out.println("---------------------------------------------------------------------------------------------");
+        System.out.println("\u001B[36m├───────────┼────────────────────┼─────────────────────────┼───────────────┼────────────────────┤\u001B[0m");
         for (StudentEnroll studentEnroll : listStudentEnroll) {
             studentEnroll.displayData();
         }
+        System.out.println("\u001B[36m└───────────┴─────────────────────┴────────────────────────┴───────────────┴────────────────────┘\u001B[0m");
         System.out.print("Trang: ");
         if (pagination.getCurrentpage() > 1) {
             System.out.print("Previous      ");
@@ -292,16 +293,21 @@ public class EnrollmentServiceImp implements EnrollmentService{
         do {
             List<Course> listPagination = courseDAOImp.listPagination(pagination.getPagesize(), pagination.getCurrentpage());
             if (!listPagination.isEmpty()) {
-                System.out.println("---------------------------------------------------------------------------------------------");
-                System.out.printf("%-10s | %-25s | %-15s | %-25s | %-15s\n",
+                System.out.println("\u001B[36m┌───────────┬──────────────────────────┬───────────────────┬──────────────────────────┬───────────────────┐\u001B[0m");
+                System.out.printf("\u001B[36m│\u001B[33m%-10s\u001B[36m │ %-25s│ %-18s│ %-25s│ %-18s│\n\u001B[0m",
                         "Mã KH", "Tên khóa học", "Thời lượng (giờ)", "Giảng viên phụ trách", "Ngày thêm");
-                System.out.println("---------------------------------------------------------------------------------------------");
+                System.out.println("\u001B[36m├───────────┼──────────────────────────┼───────────────────┼──────────────────────────┼───────────────────┤\u001B[0m");
                 listPagination.forEach(course -> {
-                    System.out.printf("%-10d | %-25s | %-15d | %-25s | %-15s\n",
-                            course.getId(), course.getName(), course.getDuration(),
-                            course.getInstructor(), course.getCreate_at());
+                    System.out.printf("\u001B[36m│\u001B[32m%-10d\u001B[36m │ %-25s│ %-18d│ %-25s│ %-18s│\n\u001B[0m",
+                            course.getId(),
+                            course.getName(),
+                            course.getDuration(),
+                            course.getInstructor(),
+                            course.getCreate_at()
+                    );
                 });
-                System.out.println("----------------------------------------------------------------------------------------------");
+                System.out.println("\u001B[36m└───────────┴──────────────────────────┴───────────────────┴──────────────────────────┴───────────────────┘\u001B[0m");
+
                 System.out.print("Trang: ");
                 if (pagination.getCurrentpage() > 1) {
                     System.out.print("Previous      ");
@@ -337,10 +343,10 @@ public class EnrollmentServiceImp implements EnrollmentService{
                             pagination.setCurrentpage(pagination.getCurrentpage() + 1);
                         break;
                     default:
-                        System.out.println("Lựa chọn không hợp lệ vui lòng nhập lại!");
+                        System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng nhập lại!\u001B[0m");
                 }
             } else {
-                System.out.println("Không có khóa học nào.");
+                System.out.println("\u001B[31mKhông có khóa học nào!\u001B[0m");
                 break;
             }
         } while (true);
@@ -355,17 +361,21 @@ public class EnrollmentServiceImp implements EnrollmentService{
         do {
             List<StudentEnroll> listStudentEnroll = enrollmentDAOImp.listEnrollmentByCourse(idCourse,pagination.getPagesize(),pagination.getCurrentpage());
             if (!listStudentEnroll.isEmpty()) {
-                System.out.println("---------------------------------------------------------------------------------------------");
-                System.out.printf("|%-10s |%-20s |%-15s |%-20s%n|",
-                        "Mã ĐK", "Học viên", "Khóa học", "Trạng thái", "Thời gian tạo");
-                System.out.println("---------------------------------------------------------------------------------------------");
+                System.out.println("\u001B[36m┌───────────┬─────────────────────┬────────────────┬─────────────────────┐\u001B[0m");
+                System.out.printf("\u001B[36m│\u001B[33m%-10s\u001B[36m │ %-20s│ %-15s│ %-20s│\n\u001B[0m",
+                        "Mã ĐK", "Học viên", "Trạng thái", "Thời gian tạo");
+                System.out.println("\u001B[36m├───────────┼─────────────────────┼────────────────┼─────────────────────┤\u001B[0m");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 listStudentEnroll.forEach(studentEnroll -> {
-                    System.out.printf("|%-10d |%-20s |%-15s |%-20s%n",
-                            studentEnroll.getId(),studentEnroll.getName(),studentEnroll.getStatus(),
-                            (studentEnroll.getCreatedAt() != null ? studentEnroll.getCreatedAt().format(formatter) : "N/A"));
+                    System.out.printf("\u001B[36m│\u001B[32m%-10d\u001B[36m │ %-20s│ %-15s│ %-20s│\n\u001B[0m",
+                            studentEnroll.getId(),
+                            studentEnroll.getName(),
+                            studentEnroll.getStatus(),
+                            studentEnroll.getCreatedAt() != null ? studentEnroll.getCreatedAt().format(formatter) : "N/A"
+                    );
                 });
-                System.out.println("----------------------------------------------------------------------------------------------");
+                System.out.println("\u001B[36m└───────────┴─────────────────────┴────────────────┴─────────────────────┘\u001B[0m");
+
                 System.out.print("Trang: ");
                 if (pagination.getCurrentpage() > 1) {
                     System.out.print("Previous      ");
@@ -390,7 +400,7 @@ public class EnrollmentServiceImp implements EnrollmentService{
                         pagination.setCurrentpage(page);
                         break;
                     case '2':
-                        idEnrollment = Validator.validateInt(scanner,0,1000,"Nhập vào mã đăng học bạn chọn: ", "Mã đăng ký: ");
+                        idEnrollment = Validator.validateInt(scanner,0,1000,"Nhập vào mã đăng ký bạn chọn: ", "Mã đăng ký: ");
                         return idEnrollment;
                     case 'P':
                         if (pagination.getCurrentpage() > 1)
@@ -401,10 +411,10 @@ public class EnrollmentServiceImp implements EnrollmentService{
                             pagination.setCurrentpage(pagination.getCurrentpage() + 1);
                         break;
                     default:
-                        System.out.println("Lựa chọn không hợp lệ vui lòng nhập lại!");
+                        System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng nhập lại!\u001B[0m");
                 }
             } else {
-                System.out.println("Không có đăng ký nào!.");
+                System.out.println("\u001B[31mKhông có đăng ký nào!\u001B[0m");
                 break;
             }
         } while (true);
@@ -417,7 +427,7 @@ public class EnrollmentServiceImp implements EnrollmentService{
         int idCourse = choiceCourse(scanner);
         Course course = courseServiceImp.findCourseById(idCourse);
         if (course == null){
-            System.out.println("Khóa học không tồn tại!");
+            System.out.println("\u001B[31mKhóa học không tồn tại!\u001B[0m");
         }else {
             List<StudentEnroll> listStudentEnroll = enrollmentDAOImp.listEnrollmentByCourse(idCourse,pagination.getPagesize(),pagination.getCurrentpage());
             if (!listStudentEnroll.isEmpty()) {
@@ -426,16 +436,16 @@ public class EnrollmentServiceImp implements EnrollmentService{
                 int idEnrollment = choiceEnrollment(scanner, idCourse);
                 Enrollment enrollment = enrollmentDAOImp.finById(idEnrollment);
                 if (enrollment == null){
-                    System.out.println("Đăng ký khóa học không hợp lệ!");
+                    System.out.println("\u001B[31mĐăng ký khóa học không hợp lệ!\u001B[0m");
                 }else {
                     if(enrollmentDAOImp.confirmEnrollment(enrollment.getId())){
-                        System.out.println("Xác nhận thành công");
+                        System.out.println("\u001B[32mXác nhận thành công!\u001B[0m");
                     }else {
-                        System.out.println("Xác nhận thất bại");
+                        System.out.println("\u001B[31mXác nhận thất bại\u001B[0m");
                     }
                 }
             }else {
-                System.out.println("Không có đăng ký nào!");
+                System.out.println("\u001B[31mKhông có đăng ký nào!\u001B[0m");
             }
         }
     }
@@ -446,7 +456,7 @@ public class EnrollmentServiceImp implements EnrollmentService{
         int idCourse = choiceCourse(scanner);
         Course course = courseServiceImp.findCourseById(idCourse);
         if (course == null){
-            System.out.println("Khóa học không tồn tại!");
+            System.out.println("\u001B[31mKhóa học không tồn tại!\u001B[0m");
         }else {
             List<StudentEnroll> listStudentEnroll = enrollmentDAOImp.listEnrollmentByCourse(idCourse,pagination.getPagesize(),pagination.getCurrentpage());
             if (!listStudentEnroll.isEmpty()) {
@@ -455,17 +465,16 @@ public class EnrollmentServiceImp implements EnrollmentService{
                 int idEnrollment = choiceEnrollment(scanner, idCourse);
                 Enrollment enrollment = enrollmentDAOImp.finById(idEnrollment);
                 if (enrollment == null){
-
-                    System.out.println("Đăng ký khóa học không hợp lệ!");
+                    System.out.println("\u001B[31mĐăng ký khóa học không hợp lệ!\u001B[0m");
                 }else {
                     if(enrollmentDAOImp.cancelEnrollment(enrollment.getId())){
-                        System.out.println("Từ chối thành công");
+                        System.out.println("\u001B[32mTừ chối thành công!\u001B[0m");
                     }else {
-                        System.out.println("Từ chối thất bại");
+                        System.out.println("\u001B[31mTừ chối thất bại\u001B[0m");
                     }
                 }
             }else {
-                System.out.println("Không có đăng ký nào!");
+                System.out.println("\u001B[31mKhông có đăng ký nào!\u001B[0m");
             }
         }
     }

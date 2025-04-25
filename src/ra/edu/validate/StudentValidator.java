@@ -11,15 +11,19 @@ public class StudentValidator {
     public StudentValidator(){
         managerStudentServiceImp = new ManagerStudentServiceImp();
     }
-    public static String validateEmail(Scanner scanner){
+    public static String validateEmail(Scanner scanner, boolean isUpdate){
         StudentValidator studentValidator = new StudentValidator();
         while(true){
             String email = Validator.validateEmail(scanner);
-            Student student = managerStudentServiceImp.findStudentByEmail(email);
-            if (student == null){
-                return email;
+            if(!isUpdate){
+                Student student = managerStudentServiceImp.findStudentByEmail(email);
+                if (student == null){
+                    return email;
+                }else {
+                    System.out.println("\u001B[31mEmail đã tồn tại vui lòng nhập lại!\u001B[0m");
+                }
             }else {
-                System.out.println("\u001B[31mEmail đã tồn tại vui lòng nhập lại!\u001B[0m");
+                return email;
             }
         }
     }
@@ -73,15 +77,19 @@ public class StudentValidator {
             }
         }while (true);
     }
-    public static String validatePhone(Scanner scanner){
+    public static String validatePhone(Scanner scanner,boolean isUpdate){
         StudentValidator studentValidator = new StudentValidator();
         while(true){
             String phone = Validator.validPhoneNumberVN(scanner);
-            String isphone = managerStudentServiceImp.findPhone(phone);
-            if(isphone == null){
-                return phone;
+            if(!isUpdate){
+                String isphone = managerStudentServiceImp.findPhone(phone);
+                if(isphone == null){
+                    return phone;
+                }else {
+                    System.out.println("\u001B[31mSố tài điện thoại đã tồn tại, vui lòng thử lại!\u001B[0m");
+                }
             }else {
-                System.out.println("\u001B[31mSố tài điện thoại đã tồn tại, vui lòng thử lại!\u001B[0m");
+                return phone;
             }
         }
     }

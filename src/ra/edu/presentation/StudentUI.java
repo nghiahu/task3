@@ -65,7 +65,7 @@ public class StudentUI {
                     ManiApplication.currentUser = null;
                     break;
                 default:
-                    System.out.println("Lựa chọn không hợp lệ, vui lòng chọn từ 1 - 7!");
+                    System.out.println("\u001B[31mLựa chọn không hợp lệ, vui lòng chọn từ 1 - 7!\u001B[0m");
             }
         }while (!Exit);
     }
@@ -82,7 +82,7 @@ public class StudentUI {
         int idCourse = Validator.validateInt(scanner,1,1000,"Nhập vào mã khóa học bạn muốn đăng ký: ","Mã khóa học");
         Course course = courseServiceImp.findCourseById(idCourse);
         if(course == null){
-            System.out.println("Không tìm thấy khóa học!");
+            System.out.println("\u001B[31mKhông tìm thấy khóa học!\u001B[0m");
         }
         boolean isRegistered = enrollmentServiceImp.isRegistered(idCourse, enrollment.getStudent_id());
         if (course != null && isRegistered) {
@@ -91,23 +91,23 @@ public class StudentUI {
             enrollment.setCourse_id(idCourse);
             boolean Exit = false;
             while (!Exit){
-                System.out.print("Lựa chọn(y/n): ");
+                System.out.print("\u001B[35m➤ Lựa chọn(y/n): \u001B[0m");
                 char choice = Character.toLowerCase(scanner.nextLine().charAt(0));
                 switch (choice) {
                     case 'y':
                         if(enrollmentServiceImp.save(enrollment)){
-                            System.out.println("Đăng ký khóa học thành công");
+                            System.out.println("\u001B[32mĐăng ký khóa học thành công\u001B[0m");
                         }else {
-                            System.out.println("Đăng ký khóa học thất bại");
+                            System.out.println("\u001B[31mĐăng ký khóa học thất bại\u001B[0m");
                         }
                         Exit = true;
                         break;
                     case 'n':
-                        System.out.println("Đã hủy đăng ký");
+                        System.out.println("\u001B[32mĐã hủy đăng ký\u001B[0m");
                         Exit = true;
                         break;
                     default:
-                        System.out.println("Lựa chọn không hợp lệ vui lòng chọn y/n");
+                        System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng chọn y/n\u001B[0m");
                 }
             }
             enrollment.setCourse_id(idCourse);
@@ -148,28 +148,28 @@ public class StudentUI {
             enrollment.setCourse_id(idCourse);
             boolean Exit = false;
             while (!Exit){
-                System.out.print("Lựa chọn(y/n): ");
+                System.out.print("\u001B[35m➤ Lựa chọn: \u001B[0m");
                 char choice = Character.toLowerCase(scanner.nextLine().charAt(0));
                 switch (choice) {
                     case 'y':
                         if(enrollmentServiceImp.delete(enrollment)){
-                            System.out.println("Hủy đăng ký khóa học thành công");
+                            System.out.println("\u001B[32mHủy đăng ký khóa học thành công\u001B[0m");
                         }else {
-                            System.out.println("Hủy đăng ký khóa học thất bại");
+                            System.out.println("\u001B[31mHủy đăng ký khóa học thất bại\u001B[0m");
                         }
                         Exit = true;
                         break;
                     case 'n':
-                        System.out.println("Đã hủy thao tác hủy đăng ký");
+                        System.out.println("\u001B[32mĐã hủy thao tác hủy đăng ký\u001B[0m");
                         Exit = true;
                         break;
                     default:
-                        System.out.println("Lựa chọn không hợp lệ vui lòng chọn y/n");
+                        System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng chọn y/n\u001B[0m");
                 }
             }
             enrollment.setCourse_id(idCourse);
         }else {
-            System.out.println("Khóa học không tồn tại");
+            System.out.println("\u001B[31mKhóa học không tồn tại!\u001B[0m");
         }
     }
 }

@@ -77,7 +77,7 @@ public class Course {
     }
 
     public void inputData(Scanner scanner){
-        this.name = CourseValidator.validateName(scanner);
+        this.name = CourseValidator.validateName(scanner, false);
         this.duration = Validator.validateInt(scanner,1,1000,"Nhập vào thời lượng khóa học: ", "Thời lượng");
         this.instructor = Validator.validateString(scanner,1,100,"Giảng viên phụ trách: ", "Giảng viên");
     }

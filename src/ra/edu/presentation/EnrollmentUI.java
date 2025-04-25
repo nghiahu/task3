@@ -38,7 +38,7 @@ public class EnrollmentUI {
                     Exit = true;
                     break;
                 default:
-                    System.out.println("Lựa chọn không hợp lệ vui lòng chọn từ 1 - 4!");
+                    System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng chọn từ 1 - 4!\u001B[0m");
             }
         }while (!Exit);
     }

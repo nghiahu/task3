@@ -67,7 +67,7 @@ public class CourseServiceImp implements CourseService {
                 System.out.println("\u001B[1;36m└──────┴───────┴───────────────────────────┴──────────────────┴───────────────────────────┴─────────────────┘\u001B[0m");
                 Exit = pagination.navigate(scanner);
             } else {
-                System.out.println("Không có khóa học nào.");
+                System.out.println("\u001B[31mKhông có khóa học nào.!\u001B[0m");
                 break;
             }
         } while (!Exit);
@@ -133,7 +133,7 @@ public class CourseServiceImp implements CourseService {
                     Exit = true;
                     break;
                 default:
-                    System.out.println("Lựa chọn không hợp lệ, vui lòng nhập lại!");
+                    System.out.println("\u001B[31mLựa chọn không hợp lệ, vui lòng nhập lại!\u001B[0m");
             }
         }while(!Exit);
     }
@@ -156,7 +156,7 @@ public class CourseServiceImp implements CourseService {
                     Exit = true;
                     break;
                 default:
-                    System.out.println("Lựa chọn không hợp lệ, vui lòng nhập lại!");
+                    System.out.println("\u001B[31mLựa chọn không hợp lệ, vui lòng nhập lại!\u001B[0m");
             }
         }while(!Exit);
     }
@@ -172,17 +172,18 @@ public class CourseServiceImp implements CourseService {
         do {
             Map<Course,Integer> list = courseDAOImp.totalStdOfCourse(pagination.getPagesize(),pagination.getCurrentpage());
             if (!list.isEmpty()) {
-                System.out.println("-----------------------------------------------------------");
-                System.out.printf("%-10s | %-25s | %-15s \n",
+                System.out.println("\u001B[36m┌────────────┬──────────────────────────┬───────────────────┐\u001B[0m");
+                System.out.printf("\u001B[36m│ \u001B[33m%-10s\u001B[36m │ %-25s│ %-18s│\n\u001B[0m",
                         "Mã KH", "Tên khóa học", "Số lượng học viên");
-                System.out.println("-----------------------------------------------------------");
+                System.out.println("\u001B[36m├────────────┼──────────────────────────┼───────────────────┤\u001B[0m");
                 list.forEach((k, v) -> {
-                    System.out.printf("%-10s | %-25s | %-15s \n",k.getId(),k.getName(),v);
+                    System.out.printf("\u001B[36m│ \u001B[32m%-10s\u001B[36m │ %-25s│ %-18s│\n\u001B[0m", k.getId(), k.getName(), v);
                 });
-                System.out.println("------------------------------------------------------------");
+                System.out.println("\u001B[36m└────────────┴──────────────────────────┴───────────────────┘\u001B[0m");
+
                 Exit = pagination.navigate(scanner);
             } else {
-                System.out.println("Không có khóa học nào.");
+                System.out.println("\u001B[31mKhông có khóa học nào!\u001B[0m");
                 break;
             }
         } while (!Exit);
@@ -192,16 +193,17 @@ public class CourseServiceImp implements CourseService {
     public void top5Course(Scanner scanner) {
         Map<Course,Integer> list = courseDAOImp.top5Course();
         if (!list.isEmpty()) {
-            System.out.println("-----------------------------------------------------------");
-            System.out.printf("%-10s | %-25s | %-15s \n",
+            System.out.println("\u001B[36m┌────────────┬──────────────────────────┬───────────────────┐\u001B[0m");
+            System.out.printf("\u001B[36m│ \u001B[33m%-10s\u001B[36m │ %-25s│ %-18s│\n\u001B[0m",
                     "Mã KH", "Tên khóa học", "Số lượng học viên");
-            System.out.println("-----------------------------------------------------------");
+            System.out.println("\u001B[36m├────────────┼──────────────────────────┼───────────────────┤\u001B[0m");
             list.forEach((k, v) -> {
-                System.out.printf("%-10s | %-25s | %-15s \n",k.getId(),k.getName(),v);
+                System.out.printf("\u001B[36m│ \u001B[32m%-10s\u001B[36m │ %-25s│ %-18s│\n\u001B[0m", k.getId(), k.getName(), v);
             });
-            System.out.println("------------------------------------------------------------");
-            }else {
-            System.out.println("Không có khóa học nào");
+            System.out.println("\u001B[36m└────────────┴──────────────────────────┴───────────────────┘\u001B[0m");
+
+        }else {
+            System.out.println("\u001B[31mKhông có khóa học nào!\u001B[0m");
         }
     }
 
@@ -215,17 +217,17 @@ public class CourseServiceImp implements CourseService {
         do {
             Map<Course,Integer> list = courseDAOImp.CourseThan10Std(pagination.getPagesize(),pagination.getCurrentpage());
             if (!list.isEmpty()) {
-                System.out.println("-----------------------------------------------------------");
-                System.out.printf("%-10s | %-25s | %-15s \n",
+                System.out.println("\u001B[36m┌────────────┬──────────────────────────┬───────────────────┐\u001B[0m");
+                System.out.printf("\u001B[36m│ \u001B[33m%-10s\u001B[36m │ %-25s│ %-18s│\n\u001B[0m",
                         "Mã KH", "Tên khóa học", "Số lượng học viên");
-                System.out.println("-----------------------------------------------------------");
+                System.out.println("\u001B[36m├────────────┼──────────────────────────┼───────────────────┤\u001B[0m");
                 list.forEach((k, v) -> {
-                    System.out.printf("%-10s | %-25s | %-15s \n",k.getId(),k.getName(),v);
+                    System.out.printf("\u001B[36m│ \u001B[32m%-10s\u001B[36m │ %-25s│ %-18s│\n\u001B[0m", k.getId(), k.getName(), v);
                 });
-                System.out.println("------------------------------------------------------------");
+                System.out.println("\u001B[36m└────────────┴──────────────────────────┴───────────────────┘\u001B[0m");
                 Exit = pagination.navigate(scanner);
             } else {
-                System.out.println("Không có khóa học nào.");
+                System.out.println("\u001B[31mKhông có khóa học nào!\u001B[0m");
                 break;
             }
         } while (!Exit);

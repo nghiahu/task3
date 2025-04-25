@@ -70,7 +70,7 @@ public class RegisteredCurse {
         this.registrationDate = registrationDate;
     }
     public void displayData(){
-        System.out.printf("|%-10d|%-12d|%-30s|%-12d|%-22s|%-12S|%-20s|\n",
+        System.out.printf("\u001B[36m│\u001B[32m%-12d\u001B[36m│%-14d│%-32s│%-12d│%-22s│%-12s│%-22s│\n\u001B[0m",
                 id,
                 idCourse,
                 courseName,

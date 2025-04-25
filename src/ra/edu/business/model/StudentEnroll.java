@@ -54,12 +54,12 @@ public class StudentEnroll {
     }
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     public void displayData() {
-        System.out.printf("|%-10d |%-20s |%-25s |%-15s |%-20s%n",
-            id,
-            name,
-            courseName,
-            status,
-            createdAt != null ? createdAt.format(formatter) : "N/A"
+        System.out.printf("\u001B[36m│\u001B[32m%-10d\u001B[36m │%-20s│%-25s│%-15s│%-20s│\n\u001B[0m",
+                id,
+                name,
+                courseName,
+                status,
+                createdAt != null ? createdAt.format(formatter) : "N/A"
         );
     }
 }

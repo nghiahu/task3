@@ -53,7 +53,7 @@ public class CourseUi {
                     Exit = true;
                     break;
                 default:
-                    System.out.println("Lựa chọn không hợp lệ, vui lòng chọn từ 1 - 7!");
+                    System.out.println("\u001B[31mLựa chọn không hợp lệ, vui lòng chọn từ 1 - 7!\u001B[0m");
             }
         }while(!Exit) ;
     }
@@ -64,16 +64,16 @@ public class CourseUi {
         Course course = new Course();
         course.inputData(scanner);
         if (courseServiceImp.save(course)) {
-            System.out.println("Thêm khóa học thành công");
+            System.out.println("\u001B[32mThêm khóa học thành công!\u001B[0m");
         }else {
-            System.out.println("Thêm khóa học thất bại!");
+            System.out.println("\u001B[31mThêm khóa học thất bại!\u001B[0m");
         }
     }
     public static void updateCourse(Scanner scanner) {
         int inputId= Validator.validateInt(scanner,0,1000,"Nhập vào mã khóa học cần cập nhật: ", "Mã khóa học");
         Course course = courseServiceImp.findCourseById(inputId);
         if(course == null) {
-            System.out.println("Không tìm thấy khóa học");
+            System.out.println("\u001B[31mKhông tìm thấy khóa học\u001B[0m");
         }else {
             boolean Exit = false;
             System.out.println("Khóa học muốn cập nhật: ");
@@ -91,7 +91,7 @@ public class CourseUi {
                 int choice = ValidatorChoice.validater(scanner);
                 switch (choice) {
                     case 1:
-                        course.setName(CourseValidator.validateName(scanner));
+                        course.setName(CourseValidator.validateName(scanner, true));
                         break;
                     case 2:
                         course.setDuration(Validator.validateInt(scanner,1,1000,"Nhập vào thời lượng khóa học: ", "Thời lượng"));
@@ -105,9 +105,9 @@ public class CourseUi {
                 }
             }while(!Exit);
             if (courseServiceImp.update(course)) {
-                System.out.println("Cập nhật thành công");
+                System.out.println("\u001B[32mCập nhật thành công\u001B[0m");
             }else {
-                System.out.println("Cập nhật thất bại!");
+                System.out.println("\u001B[31mCập nhật thất bại!\u001B[0m");
             }
         }
     }
@@ -115,7 +115,7 @@ public class CourseUi {
         int inputId= Validator.validateInt(scanner,0,1000,"Nhập vào mã khóa học cần xóa: ", "Mã khóa học");
         Course course = courseServiceImp.findCourseById(inputId);
         if(course == null) {
-            System.out.println("Không tìm thấy khóa học muốn xóa");
+            System.out.println("\u001B[31mKhông tìm thấy khóa học muốn xóa\u001B[0m");
         }else {
             System.out.println(course.toString());
             boolean Exit = false;
@@ -126,18 +126,18 @@ public class CourseUi {
                 switch (choice) {
                     case 'y':
                         if (courseServiceImp.delete(course)) {
-                            System.out.println("Xóa thành công");
+                            System.out.println("\u001B[32mXóa thành công\u001B[0m");
                         }else {
-                            System.out.println("Xóa thất bại");
+                            System.out.println("\u001B[31mXóa thất bại\u001B[0m");
                         }
                         Exit = true;
                         break;
                     case 'n':
-                        System.out.println("Đã hủy xóa");
+                        System.out.println("\u001B[32mĐã hủy xóa\u001B[0m");
                         Exit = true;
                         break;
                     default:
-                        System.out.println("Lựa chọn không hợp lệ vui lòng chọn y/n");
+                        System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng chọn y/n\u001B[0m");
                 }
             }
         }
@@ -164,7 +164,7 @@ public class CourseUi {
                    Exit = true;
                     break;
                 default:
-                    System.out.println("Lựa chọn không hợp lệ, vui lòng nhập lại!");
+                    System.out.println("\u001B[31mLựa chọn không hợp lệ, vui lòng nhập lại!\u001B[0m");
             }
         } while (!Exit);
     }
