@@ -1,7 +1,7 @@
 package ra.edu.presentation;
 
 import ra.edu.business.model.Course;
-import ra.edu.business.service.Course.CourseServiceImp;
+import ra.edu.business.service.course.CourseServiceImp;
 import ra.edu.validate.CourseValidator;
 import ra.edu.validate.Validator;
 import ra.edu.validate.ValidatorChoice;
@@ -18,14 +18,17 @@ public class CourseUi {
         Scanner scanner = new Scanner(System.in);
         boolean Exit = false;
         do {
-            System.out.println("================= Quản lý khóa học ==============");
-            System.out.println("1. Hiển thị danh sách khóa học");
-            System.out.println("2. Thêm mới khóa học");
-            System.out.println("3. Chỉnh sủa thông tin khóa học");
-            System.out.println("4. Xóa khóa học");
-            System.out.println("5. Tìm kiếm khóa học");
-            System.out.println("6. Sắp xếp khóa học");
-            System.out.println("7. Quay về menu chính");
+            System.out.println("\u001B[36m┌──────────────────────────────────────────┐");
+            System.out.println("│              QUẢN LÝ KHÓA HỌC            │");
+            System.out.println("├──────────────────────────────────────────┤");
+            System.out.println("│1. Hiển thị danh sách khóa học            │");
+            System.out.println("│2. Thêm mới khóa học                      │");
+            System.out.println("│3. Chỉnh sủa thông tin khóa học           │");
+            System.out.println("│4. Xóa khóa học                           │");
+            System.out.println("│5. Tìm kiếm khóa học                      │");
+            System.out.println("│6. Sắp xếp khóa học                       │");
+            System.out.println("│7. Quay về menu chính                     │");
+            System.out.println("└──────────────────────────────────────────┘\u001B[0m");
             int choice = ValidatorChoice.validater(scanner);
             switch (choice) {
                 case 1:
@@ -76,11 +79,15 @@ public class CourseUi {
             System.out.println("Khóa học muốn cập nhật: ");
             System.out.println(course.toString());
             do {
-                System.out.println("========================== MENU cập nhật khóa học =====================");
-                System.out.println("1. Cập nhật tên khóa học");
-                System.out.println("2. Cập thời lượng");
-                System.out.println("3. Cập nhật giảng viên phụ trách");
-                System.out.println("4. Thoát");
+                System.out.println("\u001B[33m┌─────────────────────────────────────────┐");
+                System.out.println("│          MENU CẬP NHẬT KHÓA HỌC         │");
+                System.out.println("├─────────────────────────────────────────┤");
+                System.out.println("│1. Cập nhật tên khóa học                 │");
+                System.out.println("│2. Cập thời lượng                        │");
+                System.out.println("│3. Cập nhật giảng viên phụ trách         │");
+                System.out.println("│4. Thoát                                 │");
+                System.out.println("└─────────────────────────────────────────┘\u001B[0m");
+
                 int choice = ValidatorChoice.validater(scanner);
                 switch (choice) {
                     case 1:

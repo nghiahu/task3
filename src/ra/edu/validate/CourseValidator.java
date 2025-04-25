@@ -1,7 +1,7 @@
 package ra.edu.validate;
 
 import ra.edu.business.model.Course;
-import ra.edu.business.service.Course.CourseServiceImp;
+import ra.edu.business.service.course.CourseServiceImp;
 
 import java.util.Scanner;
 
@@ -18,7 +18,7 @@ public class CourseValidator {
             if (course == null){
                 return name;
             }else {
-                System.out.println("Tên khóa học đã tồn tại vui lòng thử lại!");
+                System.out.println("\u001B[31mTên khóa học đã tồn tại vui lòng thử lại!\u001B[0m");
             }
         }
     }

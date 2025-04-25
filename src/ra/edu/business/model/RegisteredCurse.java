@@ -8,18 +8,10 @@ public class RegisteredCurse {
     private String courseName;
     private int duration;
     private String instructor;
+    private E_status status;
     private LocalDateTime registrationDate;
 
     public RegisteredCurse() {
-    }
-
-    public RegisteredCurse(int id, int idCourse, String courseName, int duration, String instructor, LocalDateTime registrationDate) {
-        this.id = id;
-        this.idCourse = idCourse;
-        this.courseName = courseName;
-        this.duration = duration;
-        this.instructor = instructor;
-        this.registrationDate = registrationDate;
     }
 
     public int getId() {
@@ -62,6 +54,14 @@ public class RegisteredCurse {
         this.instructor = instructor;
     }
 
+    public E_status getStatus() {
+        return status;
+    }
+
+    public void setStatus(E_status status) {
+        this.status = status;
+    }
+
     public LocalDateTime getRegistrationDate() {
         return registrationDate;
     }
@@ -70,12 +70,13 @@ public class RegisteredCurse {
         this.registrationDate = registrationDate;
     }
     public void displayData(){
-        System.out.printf("|%-10d|%-12d|%-30s|%-12d|%-22s|%-20s|\n",
+        System.out.printf("|%-10d|%-12d|%-30s|%-12d|%-22s|%-12S|%-20s|\n",
                 id,
                 idCourse,
                 courseName,
                 duration,
                 instructor,
+                status,
                 registrationDate.toString()
         );
     }

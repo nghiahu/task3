@@ -1,4 +1,4 @@
-package ra.edu.business.service.ManagerStudent;
+package ra.edu.business.service.managerStudent;
 
 import ra.edu.business.model.Student;
 import ra.edu.business.service.AppService;

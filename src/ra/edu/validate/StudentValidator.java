@@ -1,7 +1,7 @@
 package ra.edu.validate;
 
 import ra.edu.business.model.Student;
-import ra.edu.business.service.ManagerStudent.ManagerStudentServiceImp;
+import ra.edu.business.service.managerStudent.ManagerStudentServiceImp;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -19,29 +19,29 @@ public class StudentValidator {
             if (student == null){
                 return email;
             }else {
-                System.out.println("Email đã tồn tại vui lòng nhập lại!");
+                System.out.println("\u001B[31mEmail đã tồn tại vui lòng nhập lại!\u001B[0m");
             }
         }
     }
     public static String validatePassword(Scanner scanner){
         while(true){
-            System.out.print("Nhập mật khẩu: ");
+            System.out.print("\u001B[37mNhập mật khẩu: \u001B[0m");
             String password = scanner.nextLine();
             String regexPass = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$";
             if(password.isEmpty()){
-                System.out.println("Mật khẩu không được để trống");
+                System.out.println("\u001B[31mMật khẩu không được để trống!\u001B[0m");
             } else if (!password.matches(regexPass)){
                 if (password.length() < 8){
-                    System.out.println("Mật khẩu phải phải có ít nhất 8 ký tự");
+                    System.out.println("\u001B[31mMật khẩu phải phải có ít nhất 8 ký tự!\u001B[0m");
                 }
                 if(!password.matches(".*[0-9].*")){
-                    System.out.println("Mật khẩu phải có ít nhất một số");
+                    System.out.println("\u001B[31mMật khẩu phải có ít nhất một chữ số!\u001B[0m");
                 }
                 if(!password.matches(".*[a-z].*")){
-                    System.out.println("Mật khẩu phải có ít nhất một chữ viết thường");
+                    System.out.println("\u001B[31mMật khẩu phải có ít nhất một chữ viết thường!\u001B[0m");
                 }
                 if(!password.matches(".*[A-Z].*")){
-                    System.out.println("Mật khẩu phải có ít nhất một chữ viết hoa");
+                    System.out.println("\u001B[31mMật khẩu phải có ít nhất một chữ viết hoa!\u001B[0m");
                 }
             }else {
                 return password;
@@ -55,15 +55,15 @@ public class StudentValidator {
             if (birthday.isBefore(today)){
                 return birthday;
             }else {
-                System.out.println("Ngày sinh không thể lớn hơn ngày hiện tại");
+                System.out.println("\u001B[31mNgày sinh không thể lớn hơn ngày hiện tại!\u001B[0m");
             }
         }
     }
     public static boolean validateGender(Scanner scanner){
         do {
-            System.out.println("Giới tính: ");
-            System.out.println("1. Nam");
-            System.out.println("2. Nữ");
+            System.out.println("\u001B[33mGiới tính: \u001B[0m");
+            System.out.println("\u001B[33m1. Nam\u001B[0m");
+            System.out.println("\u001B[33m2. Nữ\u001B[0m");
             int choice = ValidatorChoice.validater(scanner);
             switch (choice) {
                 case 1:
@@ -81,7 +81,7 @@ public class StudentValidator {
             if(isphone == null){
                 return phone;
             }else {
-                System.out.println("Số tài điện thoại đã tồn tại, vui lòng thử lại!");
+                System.out.println("\u001B[31mSố tài điện thoại đã tồn tại, vui lòng thử lại!\u001B[0m");
             }
         }
     }

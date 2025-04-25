@@ -35,9 +35,11 @@ public class AuthDAOImp implements authDAO {
                     return user;
                 }
             }else if (returnCode == 2) {
-                System.out.println("Tài khoản đã bị xóa!");
+                System.out.println("\u001B[31mTài khoản đã bị xóa!\u001B[0m");
+                System.out.println("\n");
             }else if (returnCode == 0) {
-                System.out.println("Tài khoản hoặc mật khẩu không đúng");
+                System.out.println("\u001B[31mTài khoản hoặc mật khẩu không đúng!\u001B[0m");
+                System.out.println("\n");
             }
         }catch (SQLException e){
             System.out.println("Có lỗi trong quá trình đăng nhập: " + e.getMessage());

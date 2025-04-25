@@ -446,9 +446,9 @@ create procedure registeredEnroll(
 begin
     declare offset_in int;
     set offset_in = (page - 1) * limit_in;
-    select e.id,e.course_id,c.name,c.duration,c.instructor,e.registered_at from enrollments e
+    select e.id,e.course_id,c.name,c.duration,c.instructor,e.status,e.registered_at from enrollments e
     join Courses c on c.id = e.course_id
-    where e.student_id = student_in and e.status != 'CANCER'
+    where e.student_id = student_in
     limit limit_in
     offset offset_in;
 end //
@@ -477,7 +477,8 @@ begin
     if sortBy = 'NAME' then
         if orderBy = 'asc' then
             select e.id,e.course_id,c.name,c.duration,c.instructor,e.registered_at from enrollments e join Courses c on c.id = e.course_id
-            where e.student_id = student_in order by c.name
+            where e.student_id = student_in
+            order by c.name
             limit limit_in offset offset_in;
         else
             select e.id,e.course_id,c.name,c.duration,c.instructor,e.registered_at from enrollments e join Courses c on c.id = e.course_id
@@ -513,7 +514,7 @@ begin
         set return_code = 1;
         update enrollments
             set status = 'CANCER'
-        where course_id = student_id and student_id = student_in;
+        where course_id = course_in and student_id = student_in;
     end if ;
 end //
 DELIMITER ;
@@ -527,6 +528,154 @@ begin
     update Account
         set password = newPass
     where id = student_in;
+end //
+DELIMITER ;
+
+DELIMITER //
+create procedure isRegistered(
+    student_in int,
+    course_in int,
+    out return_code int
+)
+begin
+    if exists(select 1 from enrollments where course_id = course_in and student_id = student_in and (status = 'WAITING' or status = 'CONFIRM')) then
+        set return_code = 0;
+    else
+        set return_code = 1;
+    end if ;
+end //
+DELIMITER ;
+
+DELIMITER //
+create procedure studentEnrollment(
+    limit_in int,
+    page int
+)
+begin
+    declare offset_in int;
+    set offset_in = (page - 1) * limit_in;
+    select e.id, c.name as course_name, s.name as student_name, e.status, e.registered_at
+    from enrollments e
+             join students s on e.student_id = s.id_account
+             join courses c on e.course_id = c.id
+    order by c.name, e.registered_at
+    limit limit_in
+    offset offset_in;
+end //
+DELIMITER ;
+
+DELIMITER //
+create procedure countEnrollment()
+begin
+    select count(*) from enrollments;
+end //
+DELIMITER ;
+
+DELIMITER //
+create procedure fillEnrollmentByCourse(
+    course_in int,
+    limit_in int,
+    page int
+)
+begin
+    declare offset_in int;
+    set offset_in = (page - 1) * limit_in;
+    select e.id, s.name as student_name, e.status, e.registered_at
+    from enrollments e
+    join students s on e.student_id = s.id_account
+    where status = 'WAITING' and course_id = course_in
+    limit limit_in
+    offset offset_in;
+end //
+DELIMITER ;
+
+DELIMITER //
+create procedure countEnrollmentByCourse(
+    course_in int
+)
+begin
+    select count(*)
+    from enrollments e
+             join students s on e.student_id = s.id_account
+    where status = 'WAITING' and course_id = course_in;
+end //
+DELIMITER ;
+
+DELIMITER //
+create procedure findEnrollById(id_in int)
+begin
+    select * from enrollments where id = id_in and status = 'WAITING';
+end //
+DELIMITER ;
+
+DELIMITER //
+create procedure confirmEnroll(id_in int)
+begin
+    update enrollments
+        set status = 'CONFIRM' where id = id_in;
+end //
+DELIMITER ;
+
+DELIMITER //
+create procedure deniedEnroll(id_in int)
+begin
+    update enrollments
+    set status = 'DENIED' where id = id_in;
+end //
+DELIMITER ;
+-- Dashboard
+DELIMITER //
+create procedure totalStudentOfCourse(
+    limit_in int,
+    page int
+)
+begin
+    declare offset_in int;
+    set offset_in = (page - 1) * limit_in;
+    select c.id,c.name, count(e.student_id) from courses c
+    left join enrollments e on c.id = e.course_id
+    where c.status != 'BLOCKED'
+    group by c.id, c.name
+    limit limit_in
+    offset offset_in;
+end //
+DELIMITER ;
+
+DELIMITER //
+create procedure top5StdCourse()
+begin
+    select c.id,c.name, count(e.student_id) from courses c
+    join enrollments e on c.id = e.course_id
+    group by c.id, c.name
+    order by count(e.student_id) desc
+    limit 5;
+end //
+DELIMITER ;
+
+DELIMITER //
+create procedure Course10Std(
+    limit_in int,
+    page int
+)
+begin
+    declare offset_in int;
+    set offset_in = (page - 1) * limit_in;
+    select c.id,c.name, count(e.student_id) from courses c
+    join enrollments e on c.id = e.course_id
+    group by c.id, c.name
+    having count(e.student_id) > 10
+    limit limit_in
+    offset offset_in;
+end //
+DELIMITER ;
+
+DELIMITER //
+create procedure countCourse10Std()
+begin
+    select c.id,c.name, count(e.student_id) from courses c
+    join enrollments e on c.id = e.course_id
+    group by c.id, c.name
+    having count(e.student_id) > 10;
 end //
 DELIMITER ;
 
@@ -559,16 +708,16 @@ insert into Account (email, password, role, status) values
 
 -- Thêm 10 sinh viên tương ứng
 insert into Students (id_account, name, dob, sex, phone) values
-    (3, 'Nguyen Van A', '2002-05-01', 1, '0912345678'),
-    (4, 'Tran Thi B', '2001-07-15', 0, '0987654321'),
-    (5, 'Le Van C', '2003-03-20', 1, '0909123456'),
-    (6, 'Pham Thi D', '2002-11-30', 0, null),
-    (7, 'Hoang Van E', '2000-08-25', 1, '0938123456'),
-    (8, 'Dang Thi F', '2001-01-10', 0, '0979123456'),
-    (9, 'Bui Van G', '2003-06-14', 1, null),
-    (10, 'Do Thi H', '2002-04-22', 0, '0967123456'),
-    (11, 'Nguyen Van I', '2000-12-12', 1, '0956123456'),
-    (12, 'Tran Thi K', '2001-09-09', 0, '0945123456');
+    (2, 'Nguyen Van A', '2002-05-01', 1, '0912345678'),
+    (3, 'Tran Thi B', '2001-07-15', 0, '0987654321'),
+    (4, 'Le Van C', '2003-03-20', 1, '0909123456'),
+    (5, 'Pham Thi D', '2002-11-30', 0, null),
+    (6, 'Hoang Van E', '2000-08-25', 1, '0938123456'),
+    (7, 'Dang Thi F', '2001-01-10', 0, '0979123456'),
+    (8, 'Bui Van G', '2003-06-14', 1, null),
+    (9, 'Do Thi H', '2002-04-22', 0, '0967123456'),
+    (10, 'Nguyen Van I', '2000-12-12', 1, '0956123456'),
+    (11, 'Tran Thi K', '2001-09-09', 0, '0945123456');
 
     insert into enrollments(student_id, course_id, status) values
     (1, 1, 'WAITING'),

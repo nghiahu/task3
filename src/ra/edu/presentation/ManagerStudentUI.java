@@ -1,7 +1,7 @@
 package ra.edu.presentation;
 
 import ra.edu.business.model.Student;
-import ra.edu.business.service.ManagerStudent.ManagerStudentServiceImp;
+import ra.edu.business.service.managerStudent.ManagerStudentServiceImp;
 import ra.edu.validate.StudentValidator;
 import ra.edu.validate.Validator;
 import ra.edu.validate.ValidatorChoice;
@@ -18,14 +18,17 @@ public class ManagerStudentUI {
         Scanner scanner = new Scanner(System.in);
         boolean Exit = false;
         do {
-            System.out.println("================== Quản lý học viên ==================");
-            System.out.println("1. Hiển thị danh sách học viên");
-            System.out.println("2. Thêm mới học viên");
-            System.out.println("3. Chỉnh sửa thông tin học viên");
-            System.out.println("4. Xóa học viên");
-            System.out.println("5. Tìm kiếm học viên");
-            System.out.println("6. Sắp xếp học viên");
-            System.out.println("7. Quay về menu chính");
+            System.out.println("\u001B[36m┌────────────────────────────────────────────────────────┐");
+            System.out.println("│                      QUẢN LÝ HỌC VIÊN                  │");
+            System.out.println("├────────────────────────────────────────────────────────┤");
+            System.out.println("│1. Hiển thị danh sách học viên                          │");
+            System.out.println("│2. Thêm mới học viên                                    │");
+            System.out.println("│3. Chỉnh sửa thông tin học viên                         │");
+            System.out.println("│4. Xóa học viên                                         │");
+            System.out.println("│5. Tìm kiếm học viên                                    │");
+            System.out.println("│6. Sắp xếp học viên                                     │");
+            System.out.println("│7. Quay về menu chính                                   │");
+            System.out.println("└────────────────────────────────────────────────────────┘\u001B[0m");
             int choice = ValidatorChoice.validater(scanner);
             switch (choice) {
                 case 1:
@@ -75,14 +78,17 @@ public class ManagerStudentUI {
             boolean Exit = false;
             System.out.println(student.toString());
             do {
-                System.out.println("======================= Menu cập nhật =========================");
-                System.out.println("1. Cập nhật email");
-                System.out.println("2. Cập nhật mật khẩu");
-                System.out.println("3. Cập nhật tên học viên");
-                System.out.println("4. Cập nhật ngày sinh");
-                System.out.println("5. Cập giới tính");
-                System.out.println("6. Cập nhật số điệt thoại");
-                System.out.println("7. Thoát");
+                System.out.println("\u001B[33m┌─────────────────────────────────────┐");
+                System.out.println("│             MENU CẬP NHẬT           │");
+                System.out.println("├─────────────────────────────────────┤");
+                System.out.println("│1. Cập nhật email                    │");
+                System.out.println("│2. Cập nhật mật khẩu                 │");
+                System.out.println("│3. Cập nhật tên học viên             │");
+                System.out.println("│4. Cập nhật ngày sinh                │");
+                System.out.println("│5. Cập giới tính                     │");
+                System.out.println("│6. Cập nhật số điệt thoại            │");
+                System.out.println("│7. Thoát                             │");
+                System.out.println("└─────────────────────────────────────┘\u001B[0m");
                 int choice = ValidatorChoice.validater(scanner);
                 switch (choice) {
                     case 1:

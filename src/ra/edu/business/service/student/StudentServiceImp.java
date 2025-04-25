@@ -1,4 +1,4 @@
-package ra.edu.business.service.Student;
+package ra.edu.business.service.student;
 
 import ra.edu.ManiApplication;
 import ra.edu.business.dao.Student.StudentDAOImp;
@@ -38,12 +38,16 @@ public class StudentServiceImp implements StudentService {
     public void changePassword(Scanner scanner) {
         boolean Exit = false;
         while (!Exit) {
+            String email = Validator.validateEmail(scanner);
             String password = Validator.validateString(scanner,1,255,"Nhập vào mật khẩu cũ: ","Mật khẩu cũ").trim();
             if (!password.equals(ManiApplication.currentUser.getPassword())){
-                System.out.println(ManiApplication.currentUser.getPassword());
                 System.out.println("Mật khẩu cũ không chính xác, vui lòng thử lại!");
-            }else {
-                Exit = true;
+            } else {
+                if(!email.equals(ManiApplication.currentUser.getEmail())) {
+                    System.out.println("Email không chính xác vui lòng thử lại");
+                } else {
+                    Exit = true;
+                }
             }
         }
         String newPassword = StudentValidator.validatePassword(scanner);

@@ -1,4 +1,4 @@
-package ra.edu.business.service.ManagerStudent;
+package ra.edu.business.service.managerStudent;
 
 import ra.edu.business.dao.ManagerStudent.ManagerStudentDAOImp;
 import ra.edu.business.model.Pagination;
@@ -35,26 +35,7 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
                 System.out.println("Không có sinh viên!");
             }else {
                 navigateToStudent(scanner, studentList);
-                char choice = Character.toUpperCase(scanner.nextLine().charAt(0));
-                switch (choice) {
-                    case '1':
-                        int page = Validator.validateInt(scanner, 1, pagination.getTotalpages(), "Nhập trang: ", "Trang");
-                        pagination.setCurrentpage(page);
-                        break;
-                    case '2':
-                        Exit = true;
-                        break;
-                    case 'P':
-                        if (pagination.getCurrentpage() > 1)
-                            pagination.setCurrentpage(pagination.getCurrentpage() - 1);
-                        break;
-                    case 'N':
-                        if (pagination.getCurrentpage() < pagination.getTotalpages())
-                            pagination.setCurrentpage(pagination.getCurrentpage() + 1);
-                        break;
-                    default:
-                        System.out.println("Lựa chọn không hợp lệ vui lòng nhập lại!");
-                }
+                Exit = pagination.navigate(scanner);
             }
         }while (!Exit);
     }
@@ -98,26 +79,7 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
                     do {
                         studentList = managerStudentDAOImp.findStdByPagation(email,null,"EMAIL",pagination.getCurrentpage(),pagination.getPagesize());
                         navigateToStudent(scanner, studentList);
-                        char choice = Character.toUpperCase(scanner.nextLine().charAt(0));
-                        switch (choice) {
-                            case '1':
-                                int page = Validator.validateInt(scanner, 1, pagination.getTotalpages(), "Nhập trang: ", "Trang");
-                                pagination.setCurrentpage(page);
-                                break;
-                            case '2':
-                                Exit = true;
-                                break;
-                            case 'P':
-                                if (pagination.getCurrentpage() > 1)
-                                    pagination.setCurrentpage(pagination.getCurrentpage() - 1);
-                                break;
-                            case 'N':
-                                if (pagination.getCurrentpage() < pagination.getTotalpages())
-                                    pagination.setCurrentpage(pagination.getCurrentpage() + 1);
-                                break;
-                            default:
-                                System.out.println("Lựa chọn không hợp lệ vui lòng nhập lại!");
-                        }
+                        Exit = pagination.navigate(scanner);
                     }while (!Exit);
                 }
                 break;
@@ -133,7 +95,7 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
                     do {
                         studentList = managerStudentDAOImp.findStdByPagation(null,name,"NAME",pagination.getCurrentpage(),pagination.getPagesize());
                         navigateToStudent(scanner, studentList);
-                        char choice = Character.toUpperCase(scanner.nextLine().charAt(0));
+                        char choice = ValidatorChoice.validateChoiceChar(scanner);
                         switch (choice) {
                             case '1':
                                 int page = Validator.validateInt(scanner, 1, pagination.getTotalpages(), "Nhập trang: ", "Trang");
@@ -178,7 +140,6 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
     @Override
     public void sortStudentPagination(Scanner scanner) {
         boolean Exit = false;
-        boolean Next = false;
         List<Student> studentList = new ArrayList<>();
         pagination.setCurrentpage(1);
         pagination.setPagesize(10);
@@ -197,28 +158,10 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
                 if(studentList.isEmpty()) {
                     System.out.println("Không có học viên nào");
                 }else {
-                    while(!Next) {
+                    while(!Exit) {
                         studentList = managerStudentDAOImp.sortStudent("NAME",order,pagination.getCurrentpage(),pagination.getPagesize());
                         navigateToStudent(scanner, studentList);
-                        char choice = Character.toUpperCase(scanner.nextLine().charAt(0));
-                        switch (choice) {
-                            case '1':
-                                int page = Validator.validateInt(scanner, 1, pagination.getTotalpages(), "Nhập trang: ", "Trang");
-                                pagination.setCurrentpage(page);
-                                break;
-                            case '2':
-                                Next = true;
-                            case 'P':
-                                if (pagination.getCurrentpage() > 1)
-                                    pagination.setCurrentpage(pagination.getCurrentpage() - 1);
-                                break;
-                            case 'N':
-                                if (pagination.getCurrentpage() < pagination.getTotalpages())
-                                    pagination.setCurrentpage(pagination.getCurrentpage() + 1);
-                                break;
-                            default:
-                                System.out.println("Lựa chọn không hợp lệ vui lòng nhập lại!");
-                        }
+                        Exit = pagination.navigate(scanner);
                     }
                 }
                 break;
@@ -229,28 +172,10 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
                 if(studentList.isEmpty()) {
                     System.out.println("Không có học viên nào");
                 }else {
-                    while(!Next) {
+                    while(!Exit) {
                         studentList = managerStudentDAOImp.sortStudent("ID",order,pagination.getCurrentpage(),pagination.getPagesize());
                         navigateToStudent(scanner, studentList);
-                        char choice = Character.toUpperCase(scanner.nextLine().charAt(0));
-                        switch (choice) {
-                            case '1':
-                                int page = Validator.validateInt(scanner, 1, pagination.getTotalpages(), "Nhập trang: ", "Trang");
-                                pagination.setCurrentpage(page);
-                                break;
-                            case '2':
-                                Next = true;
-                            case 'P':
-                                if (pagination.getCurrentpage() > 1)
-                                    pagination.setCurrentpage(pagination.getCurrentpage() - 1);
-                                break;
-                            case 'N':
-                                if (pagination.getCurrentpage() < pagination.getTotalpages())
-                                    pagination.setCurrentpage(pagination.getCurrentpage() + 1);
-                                break;
-                            default:
-                                System.out.println("Lựa chọn không hợp lệ vui lòng nhập lại!");
-                        }
+                        Exit = pagination.navigate(scanner);
                     }
                 }
                 break;
@@ -261,28 +186,10 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
                 if(studentList.isEmpty()) {
                     System.out.println("Không có học viên nào");
                 }else {
-                    while(!Next) {
+                    while(!Exit) {
                         studentList = managerStudentDAOImp.sortStudent("EMAIL",order,pagination.getCurrentpage(),pagination.getPagesize());
                         navigateToStudent(scanner, studentList);
-                        char choice = Character.toUpperCase(scanner.nextLine().charAt(0));
-                        switch (choice) {
-                            case '1':
-                                int page = Validator.validateInt(scanner, 1, pagination.getTotalpages(), "Nhập trang: ", "Trang");
-                                pagination.setCurrentpage(page);
-                                break;
-                            case '2':
-                                Next = true;
-                            case 'P':
-                                if (pagination.getCurrentpage() > 1)
-                                    pagination.setCurrentpage(pagination.getCurrentpage() - 1);
-                                break;
-                            case 'N':
-                                if (pagination.getCurrentpage() < pagination.getTotalpages())
-                                    pagination.setCurrentpage(pagination.getCurrentpage() + 1);
-                                break;
-                            default:
-                                System.out.println("Lựa chọn không hợp lệ vui lòng nhập lại!");
-                        }
+                        Exit = pagination.navigate(scanner);
                     }
                 }
                 break;
@@ -338,23 +245,5 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
         for (Student student : students) {
             student.displayInfo();
         }
-        System.out.print("Trang: ");
-        if (pagination.getCurrentpage() > 1) {
-            System.out.print("Previous      ");
-            if (pagination.getCurrentpage() >= 3) System.out.print("... ");
-            System.out.print(pagination.getCurrentpage() - 1);
-        }
-        System.out.print("\u001B[33m" + "    " + pagination.getCurrentpage() + "     " + "\u001B[0m");
-        if (pagination.getCurrentpage() < pagination.getTotalpages()) {
-            System.out.print(" " + (pagination.getCurrentpage() + 1));
-            if (pagination.getTotalpages() - pagination.getCurrentpage() >= 2) System.out.print(" ...");
-            System.out.print("      Next");
-        }
-        System.out.println();
-        if (pagination.getCurrentpage() > 1) System.out.println("P. Trang trước");
-        if (pagination.getCurrentpage() < pagination.getTotalpages()) System.out.println("N. Trang tiếp");
-        System.out.println("1. Chọn trang");
-        System.out.println("2. Thoát");
-        System.out.print("Lựa chọn: ");
     }
 }

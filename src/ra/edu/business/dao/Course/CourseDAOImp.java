@@ -5,8 +5,7 @@ import ra.edu.business.model.Course;
 import ra.edu.business.model.Std_status;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CourseDAOImp implements CourseDAO {
     @Override
@@ -241,6 +240,114 @@ public class CourseDAOImp implements CourseDAO {
                 count = rs.getInt(1);
             }
             return count;
+        }catch (SQLException e) {
+            System.out.println("Có lỗi trong quá trình tìm kiếm: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Có lỗi không xác định trong quá trình tìm kiếm: " + e.getMessage());
+        } finally {
+            ConnectionDB.closeConnection(conn, callSt);
+        }
+        return count;
+    }
+
+    @Override
+    public Map<Course, Integer> totalStdOfCourse(int pageSize, int currentPage) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        Map<Course, Integer> map = new HashMap<>();
+        try{
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call totalStudentOfCourse(?,?)}");
+            callSt.setInt(1, pageSize);
+            callSt.setInt(2, currentPage);
+            ResultSet rs = callSt.executeQuery();
+            while (rs.next()) {
+                Course course = new Course();
+                course.setId(rs.getInt("id"));
+                course.setName(rs.getString("name"));
+                int totalStudents = rs.getInt(3);
+                map.put(course, totalStudents);
+            }
+            return map;
+        }catch (SQLException e) {
+            System.out.println("Có lỗi trong quá trình tìm kiếm: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Có lỗi không xác định trong quá trình tìm kiếm: " + e.getMessage());
+        } finally {
+            ConnectionDB.closeConnection(conn, callSt);
+        }
+        return map;
+    }
+
+    @Override
+    public Map<Course, Integer> top5Course() {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        Map<Course, Integer> map = new LinkedHashMap<>();
+        try{
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call top5StdCourse()}");
+            ResultSet rs = callSt.executeQuery();
+            while (rs.next()) {
+                Course course = new Course();
+                course.setId(rs.getInt("id"));
+                course.setName(rs.getString("name"));
+                int totalStudents = rs.getInt(3);
+                map.put(course, totalStudents);
+            }
+            return map;
+        }catch (SQLException e) {
+            System.out.println("Có lỗi trong quá trình tìm kiếm: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Có lỗi không xác định trong quá trình tìm kiếm: " + e.getMessage());
+        } finally {
+            ConnectionDB.closeConnection(conn, callSt);
+        }
+        return map;
+    }
+
+    @Override
+    public Map<Course, Integer> CourseThan10Std(int pageSize, int currentPage) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        Map<Course, Integer> map = new HashMap<>();
+        try{
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call Course10Std(?,?)}");
+            callSt.setInt(1, pageSize);
+            callSt.setInt(2, currentPage);
+            ResultSet rs = callSt.executeQuery();
+            while (rs.next()) {
+                Course course = new Course();
+                course.setId(rs.getInt("id"));
+                course.setName(rs.getString("name"));
+                int totalStudents = rs.getInt(3);
+                map.put(course, totalStudents);
+            }
+            return map;
+        }catch (SQLException e) {
+            System.out.println("Có lỗi trong quá trình tìm kiếm: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Có lỗi không xác định trong quá trình tìm kiếm: " + e.getMessage());
+        } finally {
+            ConnectionDB.closeConnection(conn, callSt);
+        }
+        return map;
+    }
+
+    public int countCourseThan10Std(){
+        Connection conn = null;
+        CallableStatement callSt = null;
+        int count = 0;
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call countCourse10Std()}");
+            callSt.execute();
+            ResultSet rs = callSt.getResultSet();
+            if (rs.next()) {
+                count = rs.getInt(1);
+                return count;
+            }
         }catch (SQLException e) {
             System.out.println("Có lỗi trong quá trình tìm kiếm: " + e.getMessage());
         } catch (Exception e) {

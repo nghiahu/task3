@@ -1,4 +1,4 @@
-package ra.edu.business.service.Auth;
+package ra.edu.business.service.auth;
 import ra.edu.business.model.User;
 
 public interface AuthService {

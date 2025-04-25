@@ -1,4 +1,4 @@
-package ra.edu.business.service.Course;
+package ra.edu.business.service.course;
 
 import ra.edu.business.dao.AppDAO;
 import ra.edu.business.model.Course;
@@ -12,4 +12,7 @@ public interface CourseService extends AppDAO<Course> {
     void listCoursesPagination(Scanner scanner);
     void sortByName(Scanner scanner);
     void sortById(Scanner scanner);
+    void totalStudentsOfCourse(Scanner scanner);
+    void top5Course(Scanner scanner);
+    void courseMore10Std(Scanner scanner);
 }
