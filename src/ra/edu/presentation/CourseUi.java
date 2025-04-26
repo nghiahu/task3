@@ -2,6 +2,7 @@ package ra.edu.presentation;
 
 import ra.edu.business.model.Course;
 import ra.edu.business.service.course.CourseServiceImp;
+import ra.edu.business.service.enrollment.EnrollmentServiceImp;
 import ra.edu.validate.CourseValidator;
 import ra.edu.validate.Validator;
 import ra.edu.validate.ValidatorChoice;
@@ -10,8 +11,10 @@ import java.util.Scanner;
 
 public class CourseUi {
     private static CourseServiceImp courseServiceImp;
+    private static EnrollmentServiceImp enrollmentServiceImp;
     public CourseUi() {
         courseServiceImp = new CourseServiceImp();
+        enrollmentServiceImp = new EnrollmentServiceImp();
     }
     public static void main(String[] args) {
         CourseUi courseUi = new CourseUi();
@@ -70,7 +73,7 @@ public class CourseUi {
         }
     }
     public static void updateCourse(Scanner scanner) {
-        int inputId= Validator.validateInt(scanner,0,1000,"Nhập vào mã khóa học cần cập nhật: ", "Mã khóa học");
+        int inputId = enrollmentServiceImp.choiceCourse(scanner);
         Course course = courseServiceImp.findCourseById(inputId);
         if(course == null) {
             System.out.println("\u001B[31mKhông tìm thấy khóa học\u001B[0m");
@@ -112,7 +115,7 @@ public class CourseUi {
         }
     }
     public static void deleteCourse(Scanner scanner) {
-        int inputId= Validator.validateInt(scanner,0,1000,"Nhập vào mã khóa học cần xóa: ", "Mã khóa học");
+        int inputId= enrollmentServiceImp.choiceCourse(scanner);
         Course course = courseServiceImp.findCourseById(inputId);
         if(course == null) {
             System.out.println("\u001B[31mKhông tìm thấy khóa học muốn xóa\u001B[0m");

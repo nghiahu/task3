@@ -43,14 +43,24 @@ public class Pagination {
     public boolean navigate(Scanner scanner) {
             System.out.print("Trang: ");
             if (currentpage > 1) {
-                System.out.print("Previous      ");
-                if (currentpage >= 3) System.out.print("... ");
-                System.out.print(currentpage - 1);
+                System.out.print("Previous");
             }
-            System.out.print("\u001B[33m" + "    " + currentpage + "     " + "\u001B[0m");
+            for (int i = 1; i <= totalpages; i++) {
+                if (i == 1 || i == totalpages || (i >= currentpage - 3 && i <= currentpage + 3)) {
+                    if (i == currentpage) {
+                        System.out.printf("\u001B[33m%5d\u001B[0m", i);
+                    } else {
+                        System.out.printf("%5d", i);
+                    }
+                } else if (i == 2 && currentpage > 5) {
+                    System.out.printf("%5s", "...");
+                    i = currentpage - 4;
+                } else if (i == currentpage + 4 && currentpage + 4 < totalpages) {
+                    System.out.printf("%5s", "...");
+                    i = totalpages - 1;
+                }
+            }
             if (currentpage < totalpages) {
-                System.out.print(" " + (currentpage + 1));
-                if (totalpages - currentpage >= 2) System.out.print(" ...");
                 System.out.print("      Next");
             }
             System.out.println();

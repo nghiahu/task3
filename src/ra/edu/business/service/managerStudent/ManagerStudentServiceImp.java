@@ -6,6 +6,7 @@ import ra.edu.business.model.Student;
 import ra.edu.validate.Validator;
 import ra.edu.validate.ValidatorChoice;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -191,6 +192,80 @@ public class ManagerStudentServiceImp implements ManagerStudentService {
     @Override
     public int countTotalSort(String sortBy, String sortOrder) {
         return managerStudentDAOImp.countSortStudent(sortBy,sortOrder);
+    }
+
+    @Override
+    public int choiceStudentPagination(Scanner scanner) {
+        pagination.setCurrentpage(1);
+        pagination.setPagesize(5);
+        int totalStudent = managerStudentDAOImp.countTotalStudent();
+        pagination.setTotalpages(totalStudent);
+        int idStudent = -1;
+        do {
+            List<Student> studentList = managerStudentDAOImp.findAllStudentPagination(pagination.getPagesize(), pagination.getCurrentpage());
+            if (!studentList.isEmpty()) {
+                System.out.println("\u001B[36m┌───────┬──────────────────────────┬─────────────────────┬───────────┬───────────┬───────────────────────────┬───────────┐\u001B[0m");
+                System.out.printf("\u001B[36m│ \u001B[33m%-5s\u001B[36m │ %-25s│ %-20s│ %-10s│ %-10s│ %-26s│ %-10s│\n\u001B[0m",
+                        "Mã HS", "Email", "Tên học sinh", "Ngày sinh", "Giới tính", "Số điện thoại", "Ngày tạo");
+                System.out.println("\u001B[36m├───────┼──────────────────────────┼─────────────────────┼───────────┼───────────┼───────────────────────────┼───────────┤\u001B[0m");
+                for (Student student : studentList) {
+                    student.displayInfo();
+                }
+                System.out.println("\u001B[36m└───────┴──────────────────────────┴─────────────────────┴───────────┴───────────┴───────────────────────────┴───────────┘\u001B[0m");
+
+                System.out.print("Trang: ");
+                if (pagination.getCurrentpage() > 1) {
+                    System.out.print("Previous");
+                }
+                for (int i = 1; i <= pagination.getTotalpages(); i++) {
+                    if (i == 1 || i == pagination.getTotalpages() || (i >= pagination.getCurrentpage() - 3 && i <= pagination.getCurrentpage() + 3)) {
+                        if (i == pagination.getCurrentpage()) {
+                            System.out.printf("\u001B[33m%5d\u001B[0m", i);
+                        } else {
+                            System.out.printf("%5d", i);
+                        }
+                    } else if (i == 2 && pagination.getCurrentpage() > 5) {
+                        System.out.printf("%5s", "...");
+                        i = pagination.getCurrentpage() - 4;
+                    } else if (i == pagination.getCurrentpage() + 4 && pagination.getCurrentpage() + 4 < pagination.getTotalpages()) {
+                        System.out.printf("%5s", "...");
+                        i = pagination.getTotalpages() - 1;
+                    }
+                }
+                if (pagination.getCurrentpage() < pagination.getTotalpages()) {
+                    System.out.print("      Next");
+                }
+                System.out.println();
+                if (pagination.getCurrentpage() > 1) System.out.println("P. Trang trước");
+                if (pagination.getCurrentpage() < pagination.getTotalpages()) System.out.println("N. Trang tiếp");
+                System.out.println("1. Chọn trang");
+                System.out.println("2. Chọn đăng ký");
+                char choice = ValidatorChoice.validateChoiceChar(scanner);
+                switch (choice) {
+                    case '1':
+                        int page = Validator.validateInt(scanner, 1, pagination.getTotalpages(), "Nhập trang: ", "Trang");
+                        pagination.setCurrentpage(page);
+                        break;
+                    case '2':
+                        idStudent = Validator.validateInt(scanner,0,1000,"Nhập vào mã học viên muốn chọn: ", "Mã học viên");
+                        return idStudent;
+                    case 'P':
+                        if (pagination.getCurrentpage() > 1)
+                            pagination.setCurrentpage(pagination.getCurrentpage() - 1);
+                        break;
+                    case 'N':
+                        if (pagination.getCurrentpage() < pagination.getTotalpages())
+                            pagination.setCurrentpage(pagination.getCurrentpage() + 1);
+                        break;
+                    default:
+                        System.out.println("\u001B[31mLựa chọn không hợp lệ vui lòng nhập lại!\u001B[0m");
+                }
+            } else {
+                System.out.println("\u001B[31mKhông có học viên nào!\u001B[0m");
+                break;
+            }
+        } while (true);
+        return idStudent;
     }
 
     @Override

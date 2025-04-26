@@ -15,4 +15,5 @@ public interface ManagerStudentService extends AppService<Student> {
     int countTotalFind(String email, String name, String Search);
     void sortStudentPagination(Scanner scanner);
     int countTotalSort(String sortBy, String sortOrder);
+    int choiceStudentPagination(Scanner scanner);
 }

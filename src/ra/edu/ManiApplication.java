@@ -32,7 +32,6 @@ public class ManiApplication {
         } catch (InterruptedException e) {
             System.out.println("\nThread bị gián đoạn!");
         }
-
         do {
             System.out.println("\u001B[34m┌──────────────────────────────────────────────┐");
             System.out.println("│                MENU ĐĂNG NHẬP                │");

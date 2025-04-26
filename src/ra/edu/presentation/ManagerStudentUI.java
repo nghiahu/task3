@@ -70,7 +70,7 @@ public class ManagerStudentUI {
         }
     }
     private static void updateStudent(Scanner scanner) {
-        int id = Validator.validateInt(scanner,1,1000,"Nhập vào mã học viên: ","Mã học viên");
+        int id = managerStudentServiceImp.choiceStudentPagination(scanner);
         Student student =managerStudentServiceImp.findStudentById(id);
         if(student == null) {
             System.out.println("\u001B[31mHọc viên không tồn tại!\u001B[0m");
@@ -127,7 +127,7 @@ public class ManagerStudentUI {
         managerStudentServiceImp.findStudentPagination(scanner);
     }
     public static void deleteStudent(Scanner scanner) {
-        int id = Validator.validateInt(scanner,1,1000,"Nhập vào mã học viên: ","Mã học viên");
+        int id = managerStudentServiceImp.choiceStudentPagination(scanner);
         Student student =managerStudentServiceImp.findStudentById(id);
         if(student == null) {
             System.out.println("\u001B[31mHọc viên không tồn tại!\u001B[0m");
